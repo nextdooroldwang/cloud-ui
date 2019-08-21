@@ -6,8 +6,6 @@
   </a-locale-provider>
 </template>
 <script>
-//设备类型监听
-import { deviceEnquire, DEVICE_TYPE } from '@/utils/device'
 //antd-vue语言包 不用antd可删除
 import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
 import enUS from 'ant-design-vue/lib/locale-provider/en_US'
@@ -28,26 +26,7 @@ export default {
       }
     }
   },
-  mounted () {
-    // const { $store } = this
-    deviceEnquire(deviceType => {
-      switch (deviceType) {
-        case DEVICE_TYPE.DESKTOP:
-          // $store.commit('TOGGLE_DEVICE', 'desktop')
-          // $store.dispatch('setSidebar', true)
-          break
-        case DEVICE_TYPE.TABLET:
-          // $store.commit('TOGGLE_DEVICE', 'tablet')
-          // $store.dispatch('setSidebar', false)
-          break
-        case DEVICE_TYPE.MOBILE:
-        default:
-          // $store.commit('TOGGLE_DEVICE', 'mobile')
-          // $store.dispatch('setSidebar', true)
-          break
-      }
-    })
-  }
+
 }
 </script>
 <style lang="less">
@@ -59,7 +38,6 @@ export default {
   height: 100%;
 }
 #nav {
-  padding: 30px;
   a {
     font-weight: bold;
     color: #2c3e50;

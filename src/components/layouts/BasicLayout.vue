@@ -1,25 +1,13 @@
 <template>
   <a-layout id="components-layout-demo-custom-trigger">
-    <side-menu
-      mode="inline"
-      :menus="menus"
-      theme="light"
-      :collapsed="false"
-      :collapsible="true"
-      @menuSelect="menuSelect"
-    ></side-menu>
     <a-layout>
       <a-layout-header style="background: #fff; padding: 0">
-        <global-header @trigger="(t) => collapsed = t"/>
+        <global-header/>
       </a-layout-header>
-      <div class="breadcrumb">
-        <Breadcrumb/>
-      </div>
-      <a-layout-content
-        :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: 'calc(100vh - 160px)' }"
-      >
+
+      <a-layout-content :style="{  height: 'calc(100vh - 64px)' }">
         <transition name="page-transition">
-          <route-view/>
+          <router-view/>
         </transition>
       </a-layout-content>
     </a-layout>
@@ -27,37 +15,14 @@
 </template>
 <script>
 import GlobalHeader from '@/components/page/Header'
-import SideMenu from '@/components/menu/SideMenu'
-import RouteView from '@/components/layouts/RouteView'
-import Breadcrumb from '@/components/page/Breadcrumb'
-import { mapState } from 'vuex'
 export default {
   data () {
     return {
-      collapsed: false,
-      menus: []
     }
   },
   components: {
-    GlobalHeader,
-    SideMenu,
-    RouteView,
-    Breadcrumb
+    GlobalHeader
   },
-  computed: {
-    ...mapState({
-      // 动态主路由
-      mainMenu: state => state.permission.addRouters
-    }),
-  },
-  created () {
-    this.menus = this.mainMenu.find(item => item.path === '/').children
-  },
-  methods: {
-    menuSelect () {
-
-    },
-  }
 }
 </script>
 <style>

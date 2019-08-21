@@ -1,27 +1,15 @@
 <template>
   <a-layout-header class="layout-header">
-    <div class="logo-box">
-      <!-- <a-icon
-        class="trigger"
-        :type="collapsed ? 'menu-unfold' : 'menu-fold'"
-        @click="handleTrigger"
-      />-->
-    </div>
     <div class="avatar-box">
-      <div>
-        <img :src="avatar" class="avatar">
-      </div>
       <div class="setter">
-        <div class="user-name">Bárbara Cotilla</div>
+        <div class="user-name">预留全局设置</div>
         <a-dropdown class="user-setting">
           <a href="#">
-            Account Settings
+            Settings
             <a-icon type="down"/>
           </a>
           <a-menu slot="overlay" @click="onClick">
-            <a-menu-item>
-              <a href="javascript:;">logout</a>
-            </a-menu-item>
+            <a-menu-item key="1">清除缓存</a-menu-item>
           </a-menu>
         </a-dropdown>
       </div>
@@ -30,68 +18,37 @@
 </template>
 
 <script>
-import avatar from '@/assets/userdefault.png';
+import { clearAll } from '@/utils/storage'
 export default {
   name: 'GlobalHeader',
-  data () {
-    return {
-      collapsed: false,
-      avatar
-    }
-  },
+
   methods: {
-    onClick () {
-      this.$store.dispatch('Logout').then(() => {
-        this.$router.push({
-          path: '/user/login'
-        })
-      })
+    onClick ({ key }) {
+
+      if (key == "1") {
+        console.log(key)
+        clearAll()
+
+      }
+
     },
-    handleTrigger () {
-      this.collapsed = !this.collapsed
-      this.$emit('trigger', this.collapsed)
-    }
+
   },
 }
 </script>
 
 <style lang="less" scoped>
-.ant-layout-header {
-  padding-left: 0;
-}
 .layout-header {
   display: flex;
-  justify-content: space-between;
-  padding-right: 24px;
+  justify-content: flex-end;
+  padding-right: 48px;
   height: 64px;
   line-height: 64px;
-  background: #fff;
-  .logo-box {
-    display: flex;
-    align-items: center;
-    .logo {
-      width: 122px;
-      height: 22px;
-      margin-right: 9px;
-    }
-    .breadcrumb {
-      width: 94px;
-      height: 24px;
-      font-size: 18px;
-      font-family: OpenSans-Regular;
-      font-weight: 400;
-      color: rgba(0, 0, 0, 1);
-      line-height: 24px;
-    }
-  }
+  background: #171617;
+  color: #fff;
   .avatar-box {
     display: flex;
     align-items: center;
-    .avatar {
-      width: 36px;
-      height: 36px;
-      margin-right: 8px;
-    }
     .setter {
       .user-name {
         width: 101px;
@@ -99,7 +56,7 @@ export default {
         font-size: 14px;
         font-family: OpenSans-Semibold;
         font-weight: 600;
-        color: rgba(0, 0, 0, 1);
+        color: rgba(225, 225, 225, 1);
       }
       .user-setting {
         width: 93px;
@@ -107,7 +64,7 @@ export default {
         font-size: 12px;
         font-family: OpenSans-Regular;
         font-weight: 400;
-        color: rgba(0, 0, 0, 0.75);
+        color: rgba(225, 225, 225, 0.75);
       }
     }
   }
