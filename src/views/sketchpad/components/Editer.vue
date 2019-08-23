@@ -42,7 +42,7 @@ export default {
       this.height = 0
       let _this = this
       let img = this.$refs.img
-      img.src = this.images[this.active]
+      img.src = this.images[this.active].data
       img.onload = function () {
         _this.countScale(img)
       }

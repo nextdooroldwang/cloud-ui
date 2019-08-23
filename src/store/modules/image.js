@@ -1,4 +1,4 @@
-import { getStore, setStore } from '@/utils/storage'
+import { getStore, setStore, clearStore } from '@/utils/storage'
 const app = {
 	state: {
 		images: {},
@@ -11,6 +11,8 @@ const app = {
 	mutations: {
 		ADD_IMAGE: (state, image) => {
 			let images = { ...state.images, ...image }
+			images[Object.keys(image)[0]].hadtags = getStore(Object.keys(image)[0]) ? true : false
+
 			state.images = images
 		},
 		DEL_IMAGE: (state, key) => {
@@ -27,15 +29,26 @@ const app = {
 		},
 		SET_POINT: (state, point) => {
 			let points = { ...state.points }
+			let images = { ...state.images }
+			images[state.active].hadtags = true
+			state.images = images
 			points[point.key] = point.value
 			state.points = points
 			setStore(state.active, state.points)
 		},
 		DEL_POINT: (state, key) => {
 			let points = { ...state.points }
+			let images = { ...state.images }
+
 			delete points[key]
 			state.points = points
-			setStore(state.active, state.points)
+			if (Object.keys(state.points).length > 0) {
+				setStore(state.active, state.points)
+			} else {
+				images[state.active].hadtags = false
+				state.images = images
+				clearStore(state.active)
+			}
 		},
 		SET_TAG: (state, tag) => {
 			state.tag = tag

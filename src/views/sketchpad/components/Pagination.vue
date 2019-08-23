@@ -1,9 +1,13 @@
 <template>
   <div class="pagination">
     <template v-if="active">
-      <span>上一张</span>
+      <span class="icon">
+        <svg-icon icon-class="left"/>
+      </span>
       <span>{{active}}</span>
-      <span>下一张</span>
+      <span class="icon">
+        <svg-icon icon-class="right"/>
+      </span>
     </template>
   </div>
 </template>
@@ -14,7 +18,8 @@ export default {
   name: 'Pagination',
   computed: {
     ...mapState({
-      active: state => state.image.active
+      active: state => state.image.active,
+      images: state => state.image.images,
     })
   },
 }
@@ -33,5 +38,9 @@ export default {
 }
 .pagination span {
   margin: 0 24px;
+}
+.svg-icon {
+  width: 1.3vw;
+  height: 1.3vw;
 }
 </style>

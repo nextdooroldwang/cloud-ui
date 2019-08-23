@@ -3,7 +3,11 @@
     <div class="history" v-for="(item,key) in points" :key="key">
       <div class="light"></div>
       <div class="name">{{item.type}}</div>
-      <div class="delete" @click="onDelete(key)">删除</div>
+      <div class="delete" @click="onDelete(key)">
+        <span class="icon">
+          <svg-icon icon-class="delete"/>
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -36,6 +40,11 @@ export default {
   padding: 0 12px;
   margin: 4px 0;
   cursor: pointer;
+  .svg-icon {
+    fill: #fff;
+    width: 1.3vw;
+    height: 1.3vw;
+  }
   .light {
     width: 5px;
     height: 100%;
@@ -58,8 +67,12 @@ export default {
     }
   }
   .delete {
+    display: flex;
+    align-items: center;
     &:hover {
-      color: red;
+      .svg-icon {
+        fill: red;
+      }
     }
   }
 }

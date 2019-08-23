@@ -10,7 +10,12 @@
         style="display:none"
         @change="handleFiles"
       >
-      <span @click="$refs.fileInput.click()">添加图片</span>
+      <div @click="$refs.fileInput.click()">
+        <span class="icon">
+          <svg-icon icon-class="open"/>
+        </span>
+        <span>添加图片</span>
+      </div>
       <!-- <span>文件夹</span> -->
     </div>
     <div class="imgs">
@@ -21,7 +26,10 @@
         :key="key"
         @click="onactive(key)"
       >
-        <img :src="item" :title="key">
+        <img :src="item.data" :title="key">
+        <span class="icon" v-if="item.hadtags">
+          <svg-icon icon-class="hadtag"/>
+        </span>
       </div>
     </div>
   </div>
@@ -40,7 +48,8 @@ export default {
     ...mapState({
       images: state => state.image.images,
       active: state => state.image.active,
-    })
+    }),
+
   },
   methods: {
     ...mapActions(['addImage', 'activeImage']),
@@ -53,14 +62,16 @@ export default {
         let reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
-          parms[imagePath] = reader.result
+          parms[imagePath] = {
+            data: reader.result
+          }
           this.addImage(parms)
         }
       }
     },
     onactive (key) {
       this.activeImage(key)
-    },
+    }
   }
 }
 </script>
@@ -72,15 +83,23 @@ export default {
   height: calc(100vh - 64px);
   overflow-y: auto;
   .file-controller {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 100%;
     height: 42px;
     border-bottom: 1px solid #121212;
-    span {
-      margin: 0 10px;
+    div {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       cursor: pointer;
+    }
+    .icon {
+      margin: 0 6px;
+      .svg-icon {
+        width: 1.3vw;
+        height: 1.3vw;
+      }
     }
   }
   .imgs {
@@ -99,6 +118,7 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
       img {
         width: auto;
         height: auto;
@@ -107,6 +127,15 @@ export default {
       }
       &:hover {
         box-shadow: 0px 0px 5px #559cf8;
+      }
+      .icon {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        .svg-icon {
+          width: 1.5625vw;
+          height: 1.5625vw;
+        }
       }
     }
     .img-box-active {

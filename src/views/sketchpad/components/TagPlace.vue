@@ -6,7 +6,11 @@
         <a-select-option v-for="(item,key) in tagOptions" :key="key" :value="key">{{key}}</a-select-option>
       </a-select>
     </div>
-    <div class="export" @click="exportJson">导出</div>
+    <div class="export" @click="exportJson">
+      <span class="icon">
+        <svg-icon icon-class="export"/>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -101,10 +105,16 @@ export default {
   .export {
     display: flex;
     align-items: center;
-    padding: 0 8px;
     cursor: pointer;
     &:hover {
       color: greenyellow;
+    }
+    .icon {
+      margin: 0 6px;
+      .svg-icon {
+        width: 1.3vw;
+        height: 1.3vw;
+      }
     }
   }
 }
