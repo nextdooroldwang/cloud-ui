@@ -21,12 +21,12 @@
     <div class="imgs">
       <div
         class="img-box"
-        :class="{'img-box-active':active === key}"
-        v-for="(item, key) in images"
-        :key="key"
-        @click="onactive(key)"
+        :class="{'img-box-active':active === item.key}"
+        v-for="item in images"
+        :key="item.key"
+        @click="onactive(item.key)"
       >
-        <img :src="item.data" :title="key">
+        <img :src="item.data" :title="item.key">
         <span class="icon" v-if="item.hadtags">
           <svg-icon icon-class="hadtag"/>
         </span>
@@ -62,7 +62,8 @@ export default {
         let reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
-          parms[imagePath] = {
+          parms = {
+            key: imagePath,
             data: reader.result
           }
           this.addImage(parms)

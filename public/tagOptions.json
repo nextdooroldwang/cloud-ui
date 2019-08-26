@@ -1,5 +1,26 @@
 {
-	"tashuang": "red",
-	"laoxue": "yellow",
-	"jingzhuang": "pink"
+	"01": {
+		"color": "#FF0000",
+		"name": "danshuang"
+	},
+	"02": {
+		"color": "#00FF00",
+		"name": "chunsheng"
+	},
+	"03": {
+		"color": "#0000FF",
+		"name": "yongchuangtianya"
+	},
+	"04": {
+		"color": "#FFFF00",
+		"name": "lianpu"
+	},
+	"05": {
+		"color": "#00FFFF",
+		"name": "danshuang"
+	},
+	"06": {
+		"color": "#FF00FF",
+		"name": "laoxue"
+	}
 }
