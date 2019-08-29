@@ -21,12 +21,18 @@ export default {
     ...mapState({
       active: state => state.image.active,
       images: state => state.image.images,
+      keyboard: state => state.image.keyboard,
     }),
     left () {
       return this.images[0].key === this.active
     },
     right () {
       return this.images[this.images.length - 1].key === this.active
+    }
+  },
+  watch: {
+    keyboard (code) {
+      this.onKeyup(code.split(',')[0])
     }
   },
   methods: {
@@ -48,7 +54,15 @@ export default {
         }
       })
       k && this.activeImage(this.images[k].key)
-    }
+    },
+    onKeyup (code) {
+      if (code === '39') {
+        this.onnext()
+      }
+      if (code === '37') {
+        this.onprop()
+      }
+    },
   }
 }
 </script>

@@ -2,7 +2,7 @@
   <a-layout-header class="layout-header">
     <div class="avatar-box">
       <div class="setter">
-        <div class="user-name">预留全局设置</div>
+        <div class="user-name">全局设置</div>
         <a-dropdown class="user-setting">
           <a href="#">
             Settings
@@ -28,7 +28,7 @@ export default {
       if (key == "1") {
         console.log(key)
         clearAll()
-
+        window.location.reload()
       }
 
     },

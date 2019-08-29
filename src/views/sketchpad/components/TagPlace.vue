@@ -14,7 +14,12 @@
     </div>
 
     <div class="tagList">
-      <div class="title">标注品类</div>
+      <div class="title">
+        <span>标注品类</span>
+        <span class="icon" @mouseover="showEx(true)" @mouseout="showEx(false)">
+          <svg-icon icon-class="target"/>
+        </span>
+      </div>
       <div
         class="classify"
         v-for="(item,key) in tagOptions"
@@ -35,7 +40,7 @@
           {{key}}
           <span
             class="number"
-            :style="{color:key === tag.tagName || key === tagFocus ? item.color : '#4c4c4c'}"
+            :style="{color:key === tag.tagName || key === tagFocus ? item.color : item.number ? '#fff' : '#4c4c4c'}"
           >已标注（{{item.number}}）</span>
         </div>
       </div>
@@ -45,7 +50,9 @@
 
 <script>
 import FileSaver from 'file-saver'
+import JSZip from 'jszip'
 import { mapActions, mapState } from 'vuex'
+import { getStore } from '@/utils/storage'
 import tagOptions from '../../../../public/tagOptions.json'
 export default {
   name: 'TagPlace',
@@ -56,6 +63,7 @@ export default {
   },
   computed: {
     ...mapState({
+      images: state => state.image.images,
       points: state => state.image.points,
       scale: state => state.image.scale,
       tag: state => state.image.tag,
@@ -72,19 +80,36 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setTag', 'setDrawing']),
+    ...mapActions(['setTag', 'setEditting', 'showEx']),
     exportJson () {
-      this.downloadJson(this.buildJson())
+      this.manyJson()
     },
-    buildJson () {
+    manyJson () {
+      let zip = new JSZip()
+      let targetFilter = zip.folder("成果物");
+      this.images.map(item => {
+        if (item.hadtags) {
+          let name = item.key.substring(0, item.key.indexOf("."));
+          let data = this.buildJson(item)
+          console.log(name)
+          let blob = new Blob([JSON.stringify(data)]);
+          targetFilter.file(name + '.json', blob);
+        }
+      })
+      zip.generateAsync({ type: "blob" })
+        .then(function (content) {
+          // see FileSaver.js
+          FileSaver.saveAs(content, "成果物.zip");
+        });
+    },
+    buildJson (item) {
       let shapes = []
-      let p = this.points
+      let p = getStore(item.key)
       let scale = this.scale
       for (let k in p) {
         shapes.push({
           "shape_type": "rectangle",
           "line_color": null,
-          // "line_color": p[k].color,
           "fill_color": null,
           "label": p[k].type,
           "points": [
@@ -94,10 +119,10 @@ export default {
         })
       }
       let data = {
-        // imagePath: this.active.imagePath,
-        // imageData: this.active.imageData.replace(/^data:image\/\w+;base64,/, ""),
-        // imageWidth: newImg.width,
-        // imageHeight: newImg.height,
+        imagePath: item.key,
+        imageData: item.data.replace(/^data:image\/\w+;base64,/, ""),
+        imageWidth: item.width,
+        imageHeight: item.height,
         version: "3.8.1",
         flags: {},
         fillColor: null,
@@ -106,15 +131,16 @@ export default {
       }
       return data
     },
-    downloadJson (data) {
-      let name = data.imagePath.substring(0, data.imagePath.indexOf("."));
-      var blob = new Blob([JSON.stringify(data)], { type: "" });
-      FileSaver.saveAs(blob, name + ".json");
+    // downloadJson (data) {
+    //   let name = data.imagePath.substring(0, data.imagePath.indexOf("."));
+    //   var blob = new Blob([JSON.stringify(data)], { type: "" });
+    //   FileSaver.saveAs(blob, name + ".json");
 
-    },
+    // },
     onActiveTag (k) {
       this.setTag({ tagName: k, tagColor: this.tagOptions[k].color })
-      this.setDrawing('')
+      this.setEditting('')
+      this.setEditting('')
     },
     handleChange (k) {
 
@@ -127,9 +153,11 @@ export default {
 .tag-place {
   height: calc(50vh - 32px);
   overflow-y: auto;
+
   .tag-control {
     display: flex;
     padding: 8px 0;
+
     .colorBoard {
       width: 32px;
       height: 32px;
@@ -144,23 +172,42 @@ export default {
     .export {
       display: flex;
       align-items: center;
-      cursor: pointer;
-      &:hover {
-        color: greenyellow;
-      }
+
       .icon {
-        margin: 0 6px;
+        margin: 0 12px;
+        cursor: pointer;
         .svg-icon {
-          width: 1.3vw;
-          height: 1.3vw;
+          font-size: 1vw;
+          fill: #fff;
+        }
+        &:hover {
+          .svg-icon {
+            fill: greenyellow;
+          }
         }
       }
     }
   }
   .tagList {
+    border-top: 6px solid #121212;
     .title {
       padding: 6px 12px;
       font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .icon {
+        font-size: 1vw;
+        cursor: pointer;
+        .svg-icon {
+          fill: #fff;
+        }
+        &:hover {
+          .svg-icon {
+            fill: greenyellow;
+          }
+        }
+      }
     }
     .classify {
       display: flex;
@@ -185,7 +232,7 @@ export default {
       }
       .type {
         flex: 1;
-        padding: 0 12px;
+        padding-left: 12px;
         margin: 0 12px;
         border-bottom: 1px solid #4c4c4c;
         display: flex;

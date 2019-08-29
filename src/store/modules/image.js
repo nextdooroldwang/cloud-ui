@@ -9,8 +9,13 @@ const app = {
 			tagColor: tagOptions[Object.keys(tagOptions)[0]].color
 		},
 		drawing: '',
+		editting: '',
+		focus: '',
 		scale: 1,
-		points: {}
+		points: {},
+		showEx: false,
+		allowEditing: false,
+		keyboard: null
 	},
 	mutations: {
 		ADD_IMAGE: (state, image) => {
@@ -21,6 +26,12 @@ const app = {
 				return item
 			})
 
+			state.images = images
+		},
+		SET_IMAGE: (state, { index, width, height }) => {
+			let images = [...state.images]
+			images[index].width = width
+			images[index].height = height
 			state.images = images
 		},
 		ACTIVE_IMAGE: (state, key) => {
@@ -66,15 +77,37 @@ const app = {
 		},
 		SET_DRAWING: (state, key) => {
 			state.drawing = key
+		},
+		SET_EDITTING: (state, key) => {
+			state.editting = key
+		},
+		SET_FOCUS: (state, key) => {
+			state.focus = key
+		},
+		SHOW_EX: (state, s) => {
+			state.showEx = s
+		},
+		ALLOW_EDITING: state => {
+			state.allowEditing = !state.allowEditing
+		},
+		SET_KEYBOARD: (state, code) => {
+			state.keyboard = code + ',' + new Date().getTime()
 		}
 	},
 	actions: {
-		addImage({ commit }, image) {
-			commit('ADD_IMAGE', image)
+		addImage({ commit, state }, image) {
+			let inimages = 0
+			state.images.map(item => {
+				item.key === image.key && inimages++
+			})
+			inimages === 0 && commit('ADD_IMAGE', image)
 		},
 		activeImage({ commit }, key) {
 			commit('ACTIVE_IMAGE', key)
 			commit('SET_POINTS')
+		},
+		setImage({ commit }, parm) {
+			commit('SET_IMAGE', parm)
 		},
 		setScale({ commit }, scale) {
 			commit('SET_SCALe', scale)
@@ -87,6 +120,8 @@ const app = {
 		},
 		delPonit({ commit, state }, key) {
 			state.drawing === key && commit('SET_DRAWING', '')
+			state.editting === key && commit('SET_EDITTING', '')
+			state.focus === key && commit('SET_FOCUS', '')
 			commit('DEL_POINT', key)
 		},
 		setTag({ commit }, tag) {
@@ -95,8 +130,23 @@ const app = {
 		setDrawing({ commit }, key) {
 			commit('SET_DRAWING', key)
 		},
+		setEditting({ commit }, key) {
+			commit('SET_EDITTING', key)
+		},
+		setFocus({ commit }, key) {
+			commit('SET_FOCUS', key)
+		},
 		finishedDraw({ commit }) {
 			commit('SET_DRAWING', '')
+		},
+		showEx({ commit }, s) {
+			commit('SHOW_EX', s)
+		},
+		setAllowEditing({ commit }) {
+			commit('ALLOW_EDITING')
+		},
+		setKeyboard({ commit }, code) {
+			commit('SET_KEYBOARD', code)
 		}
 	}
 }

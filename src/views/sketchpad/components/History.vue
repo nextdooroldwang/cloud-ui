@@ -1,20 +1,25 @@
 <template>
   <div class="historyList">
-    <div class="title">标注记录</div>
+    <div class="title">
+      <span>标注记录</span>
+      <span class="icon" :class="{allow:allowEditing}" @click="setAllowEditing()">
+        <svg-icon icon-class="edit"/>
+      </span>
+    </div>
     <div
       class="history"
       v-for="(item,key) in points"
       :key="key"
-      @mouseover="pointFocus = key"
+      @mouseenter="pointFocus = key"
       @mouseout="pointFocus = ''"
     >
       <div
         class="light"
-        :style="{background:item.type === tag.tagName || key === pointFocus ? item.color : '#4c4c4c'}"
+        :style="{background:item.type === tag.tagName || key === pointFocus||key === focus ? item.color : '#4c4c4c'}"
       ></div>
       <div
         class="name"
-        :style="{borderBottom:'1px solid ' + (key === drawing || key === pointFocus ? item.color : '#4c4c4c')}"
+        :style="{borderBottom:'1px solid ' + (key === focus || key === pointFocus ? item.color : '#4c4c4c')}"
         @click="onActivePoint(key,item.type,item.color)"
       >{{item.type}}</div>
       <div class="delete" @click="onDelete(key)">
@@ -39,18 +44,29 @@ export default {
     ...mapState({
       points: state => state.image.points,
       tag: state => state.image.tag,
-      drawing: state => state.image.drawing
+      focus: state => state.image.focus,
+      allowEditing: state => state.image.allowEditing,
     }),
   },
+  // watch: {
+  //   focus (newfocus, oldfocus) {
+  //     if (newfocus && (newfocus != oldfocus)) {
+  //       let tagName = this.points[newfocus].type
+  //       let tagColor = this.points[newfocus].color
+  //       this.setTag({ tagName, tagColor })
+  //     }
+  //   }
+  // },
   methods: {
-    ...mapActions(['delPonit', 'setTag', 'setDrawing']),
+    ...mapActions(['delPonit', 'setTag', 'setEditting', 'setFocus', 'setAllowEditing']),
     onDelete (key) {
       console.log('delete!!!')
       this.delPonit(key)
     },
     onActivePoint (key, tagName, tagColor) {
       this.pointFocus = key
-      this.setDrawing(key)
+      this.setEditting(key)
+      this.setFocus(key)
       this.setTag({ tagName, tagColor })
     }
   }
@@ -64,8 +80,26 @@ export default {
   height: calc(50vh - 32px);
   overflow-y: auto;
   .title {
-    padding: 6px 12px;
+    padding: 12px 12px;
     font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .icon {
+      cursor: pointer;
+      .svg-icon {
+        fill: #fff;
+        font-size: 1vw;
+        &:hover {
+          fill: greenyellow;
+        }
+      }
+    }
+    .allow {
+      .svg-icon {
+        fill: greenyellow;
+      }
+    }
   }
   .history {
     display: flex;
@@ -76,8 +110,8 @@ export default {
     cursor: pointer;
     .svg-icon {
       fill: #fff;
-      width: 1.3vw;
-      height: 1.3vw;
+      width: 1vw;
+      height: 1vw;
     }
     .light {
       width: 5px;

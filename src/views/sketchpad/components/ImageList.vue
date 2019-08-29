@@ -39,17 +39,11 @@
 import { mapState, mapActions } from 'vuex'
 export default {
   name: 'ImageList',
-  data () {
-    return {
-
-    }
-  },
   computed: {
     ...mapState({
       images: state => state.image.images,
       active: state => state.image.active,
     }),
-
   },
   methods: {
     ...mapActions(['addImage', 'activeImage']),
@@ -61,10 +55,10 @@ export default {
         let parms = {}
         let reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = () => {
+        reader.onload = (e) => {
           parms = {
             key: imagePath,
-            data: reader.result
+            data: e.target.result
           }
           this.addImage(parms)
         }
