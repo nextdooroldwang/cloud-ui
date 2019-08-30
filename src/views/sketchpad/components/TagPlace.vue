@@ -1,7 +1,7 @@
 <template>
   <div class="tag-place">
     <div class="tag-control">
-      <div class="selectTag">当前标注产品：雪花</div>
+      <div class="selectTag">标注产品：雪花</div>
       <div class="export" @click="exportJson">
         <span class="icon">
           <svg-icon icon-class="export"/>
@@ -61,7 +61,6 @@ export default {
     ...mapState({
       images: state => state.image.images,
       points: state => state.image.points,
-      scale: state => state.image.scale,
       tag: state => state.image.tag,
       keyboard: state => state.image.keyboard,
     }),
@@ -107,7 +106,6 @@ export default {
     buildJson (item) {
       let shapes = []
       let p = getStore(item.key)
-      let scale = this.scale
       for (let k in p) {
         shapes.push({
           "shape_type": "rectangle",
@@ -115,8 +113,8 @@ export default {
           "fill_color": null,
           "label": p[k].type,
           "points": [
-            [p[k].startX / scale, p[k].startY / scale],
-            [p[k].endX / scale, p[k].endY / scale]
+            [p[k].startX, p[k].startY],
+            [p[k].endX, p[k].endY]
           ]
         })
       }

@@ -32,7 +32,8 @@ export default {
       editting: state => state.image.editting,
       focus: state => state.image.focus,
       allowEditing: state => state.image.allowEditing,
-      keyboard: state => state.image.keyboard
+      keyboard: state => state.image.keyboard,
+      bestScale: state => state.image.bestScale
     })
   },
   watch: {
@@ -53,6 +54,7 @@ export default {
     }
   },
   mounted () {
+    console.log('init')
     this.canvas = new fabric.Canvas(this.$refs.canvas.id);
     this.canvas.on('mouse:down', this.ondown)
     this.canvas.on('mouse:up', this.onup)
@@ -118,11 +120,11 @@ export default {
       });
     },
     drawAll () {
-      let { points, active, canvas, tag } = this
+      let { points, active, canvas, tag, scale } = this
       for (let key in points) {
         if (key != active) {
           let { startX, startY, endX, endY, color, type } = points[key]
-          this.newRectObj(key, canvas, startX, startY, endX - startX, endY - startY, color, type === tag.tagName)
+          this.newRectObj(key, canvas, startX * scale, startY * scale, (endX - startX) * scale, (endY - startY) * scale, color, type === tag.tagName)
         }
       }
 
@@ -191,12 +193,14 @@ export default {
     },
     resetPointFactory (k, aCoords) {
       let { br, tl } = aCoords
-      this.pointFactory(k, tl.x, tl.y, br.x, br.y, this.points[k].color, this.points[k].type)
+      let scale = this.scale
+      this.pointFactory(k, tl.x / scale, tl.y / scale, br.x / scale, br.y / scale, this.points[k].color, this.points[k].type)
     },
     ondown (options) {
       if (!this.editting) {
-        let startX = options.e.offsetX
-        let startY = options.e.offsetY
+        let scale = this.scale
+        let startX = options.e.offsetX / scale
+        let startY = options.e.offsetY / scale
         let uuid = new Date().getTime() + ''
         let parms = {
           startX,
@@ -211,15 +215,15 @@ export default {
         this.setDrawing(uuid)
         this.setEditting(uuid)
         this.setFocus(uuid)
-        this.newRectObj(uuid, this.canvas, startX, startY, 4, 4, this.tag.tagColor, true)
+        this.newRectObj(uuid, this.canvas, startX * scale, startY * scale, 4, 4, this.tag.tagColor, true)
       }
 
     },
     onup (options) {
       if (this.drawing) {
-        let { point } = this
-        let endX = options.e.offsetX
-        let endY = options.e.offsetY
+        let { point, scale } = this
+        let endX = options.e.offsetX / scale
+        let endY = options.e.offsetY / scale
         let x = point.startX
         let y = point.startY
         let w = endX - x
@@ -238,15 +242,15 @@ export default {
     onmove (options) {
       this.resetRluer(options.e.offsetX, options.e.offsetY)
       if (this.drawing) {
-        let { point } = this
-        let endX = options.e.offsetX
-        let endY = options.e.offsetY
+        let { point, scale } = this
+        let endX = options.e.offsetX / scale
+        let endY = options.e.offsetY / scale
         let x = point.startX
         let y = point.startY
         let w = endX - x
         let h = endY - y
         if (w > 4 && h > 4) {
-          this.rects[this.drawing].set({ width: w, height: h })
+          this.rects[this.drawing].set({ width: w * scale, height: h * scale })
           this.rects[this.drawing].setCoords()
           this.canvas.renderAll();
         }

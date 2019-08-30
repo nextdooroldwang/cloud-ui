@@ -26,7 +26,7 @@
         :key="item.key"
         @click="onactive(item.key)"
       >
-        <img :src="item.data" :title="item.key">
+        <img :src="item.thum" :title="item.key">
         <span class="icon" v-if="item.hadtags">
           <svg-icon icon-class="hadtag"/>
         </span>
@@ -49,6 +49,7 @@ export default {
     ...mapActions(['addImage', 'activeImage']),
     handleFiles () {
       let files = this.$refs.fileInput.files
+      let _this = this
       for (let i = 0; i < files.length; i++) {
         let file = files[i];
         let imagePath = file.name
@@ -56,16 +57,38 @@ export default {
         let reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = (e) => {
-          parms = {
-            key: imagePath,
-            data: e.target.result
-          }
-          this.addImage(parms)
+          _this.compressPictures(e.target.result, (thum) => {
+            parms = {
+              key: imagePath,
+              data: e.target.result,
+              thum
+            }
+            _this.addImage(parms)
+          })
         }
       }
     },
     onactive (key) {
       this.activeImage(key)
+    },
+    compressPictures (target, fn) {
+      let image = new Image() //新建一个img标签（还没嵌入DOM节点)
+      image.src = target
+      image.onload = function () {
+        let canvas = document.createElement('canvas'),
+          SCALE = 0.2,
+          context = canvas.getContext('2d'),
+          imageWidth = image.width * SCALE,    //压缩后图片的大小
+          imageHeight = image.height * SCALE,
+          thum = ''
+
+        canvas.width = imageWidth
+        canvas.height = imageHeight
+
+        context.drawImage(image, 0, 0, imageWidth, imageHeight)
+        thum = canvas.toDataURL('image/jpeg')
+        fn(thum)
+      }
     }
   }
 }

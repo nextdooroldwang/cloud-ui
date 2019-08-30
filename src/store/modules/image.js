@@ -12,6 +12,7 @@ const app = {
 		editting: '',
 		focus: '',
 		scale: 1,
+		bestScale: 1,
 		points: {},
 		showEx: false,
 		allowEditing: false,
@@ -36,6 +37,9 @@ const app = {
 		},
 		ACTIVE_IMAGE: (state, key) => {
 			state.active = key
+		},
+		SET_BEST_SCALE: (state, scale) => {
+			state.bestScale = scale
 		},
 		SET_SCALe: (state, scale) => {
 			state.scale = scale
@@ -112,9 +116,9 @@ const app = {
 		setScale({ commit }, scale) {
 			commit('SET_SCALe', scale)
 		},
-		// setPoints({ commit }) {
-		// 	commit('SET_POINTS')
-		// },
+		setBestScale({ commit }, scale) {
+			commit('SET_BEST_SCALE', scale)
+		},
 		setPoint({ commit }, point) {
 			commit('SET_POINT', point)
 		},

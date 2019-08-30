@@ -29,7 +29,7 @@ export default {
   },
   watch: {
     active () {
-      this.clear = false
+
       let _this = this
       let img = this.$refs.img
       let index = null
@@ -49,7 +49,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['setScale', 'setPoint', 'setImage', 'finishedDraw']),
+    ...mapActions(['setScale', 'setBestScale', 'setPoint', 'setImage', 'finishedDraw']),
     countScale (dom) {
       let w = this.$refs.main.clientWidth - 54
       let h = this.$refs.main.clientHeight - 54
@@ -60,9 +60,10 @@ export default {
       } else {
         scale = h / dom.height
       }
-      this.scale === scale ? this.setCanvas(scale) : this.setScale(scale)
+      this.scale === scale ? this.setCanvas(scale) : this.setScale(scale) && this.setBestScale(scale)
     },
     setCanvas (s) {
+      this.clear = false
       this.img = this.$refs.img
       this.width = this.$refs.img.width * s
       this.height = this.$refs.img.height * s
@@ -76,8 +77,9 @@ export default {
 
 <style scoped>
 .main {
-  width: 100%;
-  height: 100%;
+  width: 76vw;
+  height: calc(100vh - 148px);
+  overflow: auto;
   background: #434343;
 }
 </style>
