@@ -1,11 +1,7 @@
 <template>
   <div class="tag-place">
     <div class="tag-control">
-      <div class="selectTag">
-        <!-- <a-select v-model="tagName" style="width:100%" @change="handleChange">
-          <a-select-option v-for="(item,key) in tagOptions" :key="key" :value="key">{{key}}</a-select-option>
-        </a-select>-->
-      </div>
+      <div class="selectTag">当前标注产品：雪花</div>
       <div class="export" @click="exportJson">
         <span class="icon">
           <svg-icon icon-class="export"/>
@@ -67,6 +63,7 @@ export default {
       points: state => state.image.points,
       scale: state => state.image.scale,
       tag: state => state.image.tag,
+      keyboard: state => state.image.keyboard,
     }),
     tagOptions () {
       for (let key in tagOptions) {
@@ -77,6 +74,11 @@ export default {
         tagOptions[key].number = num
       }
       return tagOptions
+    }
+  },
+  watch: {
+    keyboard (code) {
+      this.onKeyup(code.split(',')[0])
     }
   },
   methods: {
@@ -140,10 +142,17 @@ export default {
     onActiveTag (k) {
       this.setTag({ tagName: k, tagColor: this.tagOptions[k].color })
       this.setEditting('')
-      this.setEditting('')
     },
-    handleChange (k) {
-
+    onKeyup (code) {
+      let k = ''
+      for (let i = 49; i < 58; i++) {
+        if (code === i + '') {
+          if (Object.keys(tagOptions).length > i - 49) {
+            k = Object.keys(tagOptions)[i - 49]
+          }
+        }
+      }
+      k && this.onActiveTag(k)
     },
   }
 }
