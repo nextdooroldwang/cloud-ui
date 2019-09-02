@@ -26,7 +26,8 @@ export default {
       bestScale: state => state.image.bestScale
     }),
     big () {
-      return this.scale === 1
+      return false
+      // return this.scale === 1
     },
     small () {
       return this.scale === this.bestScale
@@ -35,7 +36,8 @@ export default {
   methods: {
     ...mapActions(['setScale']),
     onBig () {
-      this.scale <= .9 ? this.setScale(this.scale + .1) : this.setScale(1)
+      // this.scale <= .9 ? this.setScale(this.scale + .1) : this.setScale(1)
+      this.setScale(this.scale + .1)
     },
     onSmall () {
       let best = this.bestScale

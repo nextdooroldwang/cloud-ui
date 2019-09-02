@@ -55,11 +55,16 @@ export default {
       let h = this.$refs.main.clientHeight - 54
       let scale = 1
 
-      if ((dom.height < dom.width) && (dom.width < w)) {
-        scale = w / dom.width
+      if ((dom.height < h) && (dom.width < w)) {
+        console.log('小图片')
       } else {
-        scale = h / dom.height
+        if ((dom.height < dom.width) && (dom.width < w)) {
+          scale = w / dom.width
+        } else {
+          scale = h / dom.height
+        }
       }
+
       this.scale === scale ? this.setCanvas(scale) : this.setScale(scale) && this.setBestScale(scale)
     },
     setCanvas (s) {
