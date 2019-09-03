@@ -26,5 +26,6 @@ export default {
   height: calc(100vh - 64px);
   display: grid;
   grid-template-rows: 42px 1fr 42px;
+  position: relative;
 }
 </style>

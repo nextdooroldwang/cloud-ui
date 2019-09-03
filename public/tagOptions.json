@@ -1,26 +1,82 @@
 {
-	"01": {
+	"0": {
 		"color": "#FF0000",
-		"name": "danshuang"
+		"name": "lianpu-hualian-ting"
 	},
-	"02": {
+	"1": {
 		"color": "#00FF00",
-		"name": "chunsheng"
+		"name": "lianpu-hualian-ping"
 	},
-	"03": {
+	"2": {
 		"color": "#0000FF",
-		"name": "yongchuangtianya"
+		"name": "lianpu-huadan-ping"
 	},
-	"04": {
+	"3": {
 		"color": "#FFFF00",
-		"name": "lianpu"
+		"name": "ganpi-jingzhi-ting"
 	},
-	"05": {
+	"4": {
 		"color": "#00FFFF",
-		"name": "danshuang"
+		"name": "ganpi-ping"
 	},
-	"06": {
+	"5": {
 		"color": "#FF00FF",
-		"name": "laoxue"
+		"name": "ganpi-old-ping"
+	},
+	"6": {
+		"color": "#FFC125",
+		"name": "superx-ting"
+	},
+	"8": {
+		"color": "#FFB6C1",
+		"name": "chunsheng-ting"
+	},
+	"9": {
+		"color": "#EE00EE",
+		"name": "chunsheng-ping"
+	},
+	"10": {
+		"color": "#DAA520",
+		"name": "danshuang-ting"
+	},
+	"11": {
+		"color": "#D2691E",
+		"name": "danshuang-ping"
+	},
+	"12": {
+		"color": "#CAFF70",
+		"name": "laoxue-ting"
+	},
+	"13": {
+		"color": "#BF3EFF",
+		"name": "laoxue-ping"
+	},
+	"14": {
+		"color": "#9F79EE",
+		"name": "qingshuang-ting"
+	},
+	"15": {
+		"color": "#8E388E",
+		"name": "heishi-ping"
+	},
+	"16": {
+		"color": "#00E5EE",
+		"name": "jiangxin-ping"
+	},
+	"17": {
+		"color": "#008B8B",
+		"name": "maersilv-ping"
+	},
+	"18": {
+		"color": "#3CB371",
+		"name": "shengpi-ting"
+	},
+	"19": {
+		"color": "#7A378B",
+		"name": "chunpi-ting"
+	},
+	"20": {
+		"color": "#8B668B",
+		"name": "jinwei-ting"
 	}
 }

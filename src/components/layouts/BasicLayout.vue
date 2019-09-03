@@ -11,6 +11,24 @@
         </transition>
       </a-layout-content>
     </a-layout>
+    <div class="instructions" v-if="false">
+      <div></div>
+      <div>
+        <div>
+          <div></div>
+          <div></div>
+        </div>
+        <div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
   </a-layout>
 </template>
 <script>
@@ -63,5 +81,15 @@ export default {
 .page-transition-leave-active .page-transition-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
+}
+.instructions {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  display: grid;
+  grid-template-rows: 42px 1fr 42px;
 }
 </style>
