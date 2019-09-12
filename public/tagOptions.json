@@ -1,86 +1,182 @@
 {
 	"0": {
 		"color": "#FF0000",
-		"name": "lianpu-hualian-ting"
+		"name": "lianpu-hualian-ting-up"
 	},
 	"1": {
 		"color": "#00FF00",
-		"name": "lianpu-hualian-ping"
+		"name": "lianpu-hualian-ting-front"
 	},
 	"2": {
 		"color": "#0000FF",
-		"name": "lianpu-huadan-ping"
+		"name": "lianpu-hualian-ting-left"
 	},
 	"3": {
 		"color": "#FFFF00",
-		"name": "ganpi-jingzhi-ting"
+		"name": "ganpi-jingzhi-ting-up"
 	},
 	"4": {
 		"color": "#00FFFF",
-		"name": "ganpi-ping"
+		"name": "ganpi-jingzhi-ting-front"
 	},
 	"5": {
 		"color": "#FF00FF",
-		"name": "ganpi-old-ping"
+		"name": "ganpi-jingzhi-ting-left"
 	},
 	"6": {
 		"color": "#FFC125",
-		"name": "superx-ting"
+		"name": "ganpi-old-ping-up"
 	},
 	"7": {
 		"color": "#F0FFF0",
-		"name": "superx-ping"
+		"name": "ganpi-old-ping-front"
 	},
 	"8": {
 		"color": "#FFB6C1",
-		"name": "chunsheng-ting"
+		"name": "ganpi-old-ping-left"
 	},
 	"9": {
 		"color": "#EE00EE",
-		"name": "chunsheng-ping"
+		"name": "superx-ting-up"
 	},
 	"10": {
 		"color": "#DAA520",
-		"name": "danshuang-ting"
+		"name": "superx-ting-front"
 	},
 	"11": {
 		"color": "#D2691E",
-		"name": "danshuang-ping"
+		"name": "superx-ting-back"
 	},
 	"12": {
 		"color": "#CAFF70",
-		"name": "laoxue-ting"
+		"name": "superx-ting-left"
 	},
 	"13": {
 		"color": "#BF3EFF",
-		"name": "laoxue-ping"
+		"name": "chunsheng-ting-up"
 	},
 	"14": {
 		"color": "#9F79EE",
-		"name": "qingshuang-ting"
+		"name": "chunsheng-ting-front"
 	},
 	"15": {
 		"color": "#8E388E",
-		"name": "heishi-ping"
+		"name": "chunsheng-ting-left"
 	},
 	"16": {
 		"color": "#00E5EE",
-		"name": "jiangxin-ping"
+		"name": "chunsheng-ping-up"
 	},
 	"17": {
 		"color": "#008B8B",
-		"name": "maersilv-ping"
+		"name": "chunsheng-ping-front"
 	},
 	"18": {
 		"color": "#3CB371",
-		"name": "shengpi-ting"
+		"name": "chunsheng-ping-left"
 	},
 	"19": {
 		"color": "#7A378B",
-		"name": "chunpi-ting"
+		"name": "danshuang-ting-up"
 	},
 	"20": {
 		"color": "#8B668B",
-		"name": "jinwei-ting"
+		"name": "danshuang-ting-front"
+	},
+	"21": {
+		"color": "#8B173B",
+		"name": "danshuang-ting-left"
+	},
+	"22": {
+		"color": "#8B628B",
+		"name": "danshuang-ping-up"
+	},
+	"23": {
+		"color": "#8B862B",
+		"name": "danshuang-ping-front"
+	},
+	"24": {
+		"color": "#8B752B",
+		"name": "danshuang-ping-left"
+	},
+	"25": {
+		"color": "#8B473B",
+		"name": "laoxue-ting-up"
+	},
+	"26": {
+		"color": "#8B441B",
+		"name": "laoxue-ting-front"
+	},
+	"27": {
+		"color": "#8B272B",
+		"name": "laoxue-ting-left"
+	},
+	"28": {
+		"color": "#8B217B",
+		"name": "jiangxin-ping-up"
+	},
+	"29": {
+		"color": "#8B127B",
+		"name": "jiangxin-ping-front"
+	},
+	"30": {
+		"color": "#8B434B",
+		"name": "jiangxin-ping-back"
+	},
+	"31": {
+		"color": "#8B556B",
+		"name": "jiangxin-ping-left"
+	},
+	"32": {
+		"color": "#8B876B",
+		"name": "maersilv-ping-up"
+	},
+	"33": {
+		"color": "#8B678B",
+		"name": "maersilv-ping-front"
+	},
+	"34": {
+		"color": "#8B543B",
+		"name": "maersilv-ping-back"
+	},
+	"35": {
+		"color": "#8B345B",
+		"name": "maersilv-ping-left"
+	},
+	"36": {
+		"color": "#8B321B",
+		"name": "shengpi-ting-up"
+	},
+	"37": {
+		"color": "#8B123B",
+		"name": "shengpi-ting-front"
+	},
+	"38": {
+		"color": "#8B118B",
+		"name": "shengpi-ting-left"
+	},
+	"39": {
+		"color": "#8B668B",
+		"name": "chunpi-ting-up"
+	},
+	"40": {
+		"color": "#8B228B",
+		"name": "chunpi-ting-front"
+	},
+	"41": {
+		"color": "#8B338B",
+		"name": "chunpi-ting-left"
+	},
+	"42": {
+		"color": "#8B558B",
+		"name": "jinwei-ting-up"
+	},
+	"43": {
+		"color": "#8B448B",
+		"name": "jinwei-ting-front"
+	},
+	"44": {
+		"color": "#8B668B",
+		"name": "jinwei-ting-left"
 	}
 }
