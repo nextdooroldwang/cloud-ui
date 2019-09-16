@@ -2,9 +2,14 @@
   <div class="tag-place">
     <div class="tag-control">
       <div class="selectTag">标注产品：雪花</div>
-      <div class="export" @click="exportJson">
+      <div class="export" @click="exportJson" v-if="!loading">
         <span class="icon">
           <svg-icon icon-class="export"/>
+        </span>
+      </div>
+      <div class="loading" v-else>
+        <span class="icon">
+          <svg-icon icon-class="loading"/>
         </span>
       </div>
     </div>
@@ -54,7 +59,8 @@ export default {
   name: 'TagPlace',
   data () {
     return {
-      tagFocus: ''
+      tagFocus: '',
+      loading: false
     }
   },
   computed: {
@@ -83,25 +89,28 @@ export default {
   methods: {
     ...mapActions(['setTag', 'setEditting', 'showEx']),
     exportJson () {
+      this.loading = true
       this.manyJson()
+
     },
-    manyJson () {
+    async manyJson () {
       let zip = new JSZip()
       let targetFilter = zip.folder("成果物");
       this.images.map(item => {
         if (item.hadtags) {
           let name = item.key.substring(0, item.key.indexOf("."));
           let data = this.buildJson(item)
-          console.log(name)
           let blob = new Blob([JSON.stringify(data)]);
           targetFilter.file(name + '.json', blob);
         }
       })
-      zip.generateAsync({ type: "blob" })
+      console.log(this.loading);
+      await zip.generateAsync({ type: "blob" })
         .then(function (content) {
           // see FileSaver.js
           FileSaver.saveAs(content, "成果物.zip");
         });
+      this.loading = false
     },
     buildJson (item) {
       let shapes = []
@@ -191,6 +200,18 @@ export default {
           .svg-icon {
             fill: greenyellow;
           }
+        }
+      }
+    }
+    .loading {
+      display: flex;
+      align-items: center;
+
+      .icon {
+        margin: 0 12px;
+
+        .svg-icon {
+          font-size: 1vw;
         }
       }
     }
