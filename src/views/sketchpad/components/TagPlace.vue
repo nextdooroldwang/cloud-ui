@@ -95,16 +95,20 @@ export default {
     },
     async manyJson () {
       let zip = new JSZip()
-      let targetFilter = zip.folder("成果物");
+      let targetFilter = zip.folder("成果物")
+      let targetBackup = zip.folder("标签备份")
+      let backup = {}
       this.images.map(item => {
         if (item.hadtags) {
           let name = item.key.substring(0, item.key.indexOf("."));
           let data = this.buildJson(item)
-          let blob = new Blob([JSON.stringify(data)]);
-          targetFilter.file(name + '.json', blob);
+          backup[item.key] = getStore(item.key)
+          let blobData = new Blob([JSON.stringify(data)]);
+          targetFilter.file(name + '.json', blobData);
         }
       })
-      console.log(this.loading);
+      let blobBackup = new Blob([JSON.stringify(backup)]);
+      targetBackup.file('标签备份.json', blobBackup);
       await zip.generateAsync({ type: "blob" })
         .then(function (content) {
           // see FileSaver.js
