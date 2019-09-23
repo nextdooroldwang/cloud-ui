@@ -129,7 +129,8 @@ export default {
       }
       let data = {
         imagePath: item.key,
-        imageData: item.data.replace(/^data:image\/\w+;base64,/, ""),
+        imageData: null,
+        // imageData: item.data.replace(/^data:image\/\w+;base64,/, ""),
         imageWidth: item.width,
         imageHeight: item.height,
         version: "3.8.1",
