@@ -82,7 +82,7 @@ export default {
 
 <style scoped>
 .main {
-  width: 76vw;
+  width: 100%;
   height: calc(100vh - 148px);
   overflow: auto;
   background: #434343;

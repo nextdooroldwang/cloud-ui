@@ -21,28 +21,30 @@
           <svg-icon icon-class="target"/>
         </span>
       </div>
-      <div
-        class="classify"
-        v-for="(item,key) in tagOptions"
-        :key="key"
-        @mouseover="tagFocus = key"
-        @mouseout="tagFocus = ''"
-        @click="onActiveTag(key)"
-        :title="item.name"
-      >
+      <div class="classify-box">
         <div
-          class="light"
-          :style="{background:key === tag.tagName || key === tagFocus ? item.color : '#4c4c4c'}"
-        ></div>
-        <div
-          class="type"
-          :style="{borderBottom:'1px solid ' + (key === tag.tagName || key === tagFocus ? item.color : '#4c4c4c')}"
+          class="classify"
+          v-for="(item,key) in tagOptions"
+          :key="key"
+          @mouseover="tagFocus = key"
+          @mouseout="tagFocus = ''"
+          @click="onActiveTag(key)"
+          :title="item.name"
         >
-          {{key}}
-          <span
-            class="number"
-            :style="{color:key === tag.tagName || key === tagFocus ? item.color : item.number ? '#fff' : '#4c4c4c'}"
-          >已标注（{{item.number}}）</span>
+          <div
+            class="light"
+            :style="{background:key === tag.tagName || key === tagFocus ? item.color : '#4c4c4c'}"
+          ></div>
+          <div
+            class="type"
+            :style="{borderBottom:'1px solid ' + (key === tag.tagName || key === tagFocus ? item.color : '#4c4c4c')}"
+          >
+            {{key}}
+            <span
+              class="number"
+              :style="{color:key === tag.tagName || key === tagFocus ? item.color : item.number ? '#fff' : '#4c4c4c'}"
+            >已标注（{{item.number}}）</span>
+          </div>
         </div>
       </div>
     </div>
@@ -173,7 +175,6 @@ export default {
 <style lang="less" scoped>
 .tag-place {
   height: calc(50vh - 32px);
-  overflow-y: auto;
 
   .tag-control {
     display: flex;
@@ -242,42 +243,65 @@ export default {
         }
       }
     }
-    .classify {
-      display: flex;
-      width: 100%;
-      height: 40px;
-      padding: 0 12px;
-      margin: 4px 0;
-      cursor: pointer;
-      .svg-icon {
-        fill: #fff;
-        width: 1.3vw;
-        height: 1.3vw;
+    .classify-box {
+      height: calc(50vh - 120px);
+      overflow-y: auto;
+      &::-webkit-scrollbar {
+        width: 6px;
+        background-color: #999;
       }
-      .light {
-        width: 5px;
-        height: 100%;
+      /*定义滚动条轨道
+ 内阴影+圆角*/
+      &::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        background-color: #999;
       }
-      &:hover {
-        .light {
-          background-color: #009efd;
+      /*定义滑块
+ 内阴影+圆角*/
+      &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        background-color: #666;
+      }
+      .classify {
+        display: flex;
+        width: 100%;
+        height: 40px;
+        padding: 0 12px;
+        margin: 4px 0;
+        cursor: pointer;
+        .svg-icon {
+          fill: #fff;
+          width: 1.3vw;
+          height: 1.3vw;
         }
-      }
-      .type {
-        flex: 1;
-        padding-left: 12px;
-        margin: 0 12px;
-        border-bottom: 1px solid #4c4c4c;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .delete {
-        display: flex;
-        align-items: center;
+        .light {
+          width: 5px;
+          height: 100%;
+        }
         &:hover {
-          .svg-icon {
-            fill: red;
+          .light {
+            background-color: #009efd;
+          }
+        }
+        .type {
+          flex: 1;
+          padding-left: 12px;
+          margin: 0 12px;
+          border-bottom: 1px solid #4c4c4c;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          font-size: 0.8vw;
+        }
+        .delete {
+          display: flex;
+          align-items: center;
+          &:hover {
+            .svg-icon {
+              fill: red;
+            }
           }
         }
       }

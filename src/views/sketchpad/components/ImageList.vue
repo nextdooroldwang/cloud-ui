@@ -16,7 +16,6 @@
         </span>
         <span>添加图片</span>
       </div>
-      <!-- <span>文件夹</span> -->
     </div>
     <div class="imgs">
       <div
@@ -57,14 +56,21 @@ export default {
         let reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = (e) => {
-          _this.compressPictures(e.target.result, (thum) => {
-            parms = {
-              key: imagePath,
-              data: e.target.result,
-              thum
-            }
-            _this.addImage(parms)
-          })
+          parms = {
+            key: imagePath,
+            data: e.target.result,
+            thum: e.target.result
+          }
+          _this.addImage(parms)
+          //压缩
+          // _this.compressPictures(e.target.result, (thum) => {
+          //   parms = {
+          //     key: imagePath,
+          //     data: e.target.result,
+          //     thum
+          //   }
+          //   _this.addImage(parms)
+          // })
         }
       }
     },
@@ -99,7 +105,6 @@ export default {
   background: #242424;
   border-right: 1px solid #121212;
   height: calc(100vh - 64px);
-  overflow-y: auto;
   .file-controller {
     width: 100%;
     height: 42px;
@@ -122,8 +127,27 @@ export default {
   }
   .imgs {
     width: 100%;
+    height: calc(100vh - 106px);
+    overflow-y: auto;
     padding: 1vw;
-
+    &::-webkit-scrollbar {
+      width: 6px;
+      background-color: #999;
+    }
+    /*定义滚动条轨道
+ 内阴影+圆角*/
+    &::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      background-color: #999;
+    }
+    /*定义滑块
+ 内阴影+圆角*/
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      background-color: #666;
+    }
     .img-box {
       width: 100%;
       height: 10vw;

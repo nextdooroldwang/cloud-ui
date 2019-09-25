@@ -39,7 +39,7 @@ export default {
       })
     },
     handleGo () {
-
+      this.$router.push({ path: '/sketchpad' })
     }
   }
 }

@@ -42,7 +42,7 @@ export default {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: 12vw 1fr 12vw;
+  grid-template-columns: 12vw 1fr 200px;
   color: #fff;
   position: relative;
   .tools {
