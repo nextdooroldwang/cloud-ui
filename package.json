@@ -10,6 +10,7 @@
 		"qa": "vue-cli-service build --mode qa"
 	},
 	"dependencies": {
+		"ali-oss": "^6.1.1",
 		"ant-design-vue": "^1.3.8",
 		"axios": "^0.18.0",
 		"enquire.js": "^2.1.6",

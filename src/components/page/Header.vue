@@ -2,14 +2,15 @@
   <a-layout-header class="layout-header">
     <div class="avatar-box">
       <div class="setter">
-        <div class="user-name">全局设置</div>
+        <div class="user-name">用户设置</div>
         <a-dropdown class="user-setting">
           <a href="#">
-            Settings
+            {{'ChengZhi'}}
             <a-icon type="down"/>
           </a>
           <a-menu slot="overlay" @click="onClick">
-            <a-menu-item key="1">清除缓存</a-menu-item>
+            <a-menu-item key="1">项目设置</a-menu-item>
+            <a-menu-item key="2">退出登录</a-menu-item>
           </a-menu>
         </a-dropdown>
       </div>
@@ -18,19 +19,21 @@
 </template>
 
 <script>
-import { clearAll } from '@/utils/storage'
 export default {
   name: 'GlobalHeader',
 
   methods: {
     onClick ({ key }) {
-
-      if (key == "1") {
+      if (key === "1") {
         console.log(key)
-        clearAll()
-        window.location.reload()
       }
-
+      if (key === '2') {
+        this.$store.dispatch('Logout').then(() => {
+          setTimeout(() => {
+            this.$router.push({ path: '/login' })
+          }, 1500)
+        })
+      }
     },
 
   },

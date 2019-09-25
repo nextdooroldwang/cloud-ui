@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     handleToHome () {
-      this.$router.push({ name: 'home' })
+      this.$router.push({ name: '/' })
     }
   }
 }

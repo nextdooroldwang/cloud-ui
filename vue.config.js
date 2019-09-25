@@ -74,14 +74,14 @@ module.exports = {
 	devServer: {
 		proxy: {
 			'/token': {
-				target: 'http://47.74.34.46:8181', //代理接口
+				target: 'http://47.102.97.134:31562', //代理接口
 				changeOrigin: true,
 				pathRewrite: {
 					'^/token': '/oauth/token' //代理的路径
 				}
 			},
 			'/api': {
-				target: 'http://47.74.34.46:8181', //代理接口
+				target: 'http://47.102.97.134:31562', //代理接口
 				changeOrigin: true,
 				pathRewrite: {
 					'^/api': '/api' //代理的路径

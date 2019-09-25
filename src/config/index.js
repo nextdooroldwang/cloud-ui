@@ -4,15 +4,15 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 export const baseURL = {
-	prod: 'https://app.mobingi.com',
-	qa: 'https://appqa.mobingi.com',
+	prod: 'http://47.102.97.134:31562',
+	qa: 'http://47.102.97.134:31562',
 	dev: '/api',
 	local: '/api'
 }[env]
 
 export const loginURL = {
-	prod: 'https://login.mobingi.com',
-	qa: 'https://loginqa.mobingi.com',
+	prod: 'http://47.102.97.134:31562',
+	qa: 'http://47.102.97.134:31562',
 	dev: '/oauth/token',
 	local: '/token'
 }[env]
