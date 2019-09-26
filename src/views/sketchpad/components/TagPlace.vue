@@ -16,7 +16,10 @@
 
     <div class="tagList">
       <div class="title">
-        <span>标注品类</span>
+        <span>
+          标注品类
+          <span v-if="sum > 0">({{sum}})</span>
+        </span>
         <span class="icon" @mouseover="showEx(true)" @mouseout="showEx(false)">
           <svg-icon icon-class="target"/>
         </span>
@@ -65,7 +68,6 @@ export default {
     return {
       tagFocus: '',
       loading: false,
-
     }
   },
   computed: {
@@ -84,6 +86,17 @@ export default {
         tagOptions[key].number = num
       }
       return tagOptions
+    },
+    sum () {
+      let s = 0
+      for (let key in tagOptions) {
+        let num = 0
+        for (let k in this.points) {
+          this.points[k].type === key && num++
+        }
+        s += num
+      }
+      return s
     }
   },
   watch: {

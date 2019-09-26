@@ -15,6 +15,9 @@
           <a-tab-pane tab="图片" key="3">
             <images/>
           </a-tab-pane>
+          <a-tab-pane tab="用户" key="4">
+            <users/>
+          </a-tab-pane>
         </a-tabs>
       </div>
     </div>
@@ -30,6 +33,7 @@
 import Projects from './components/projects'
 import Labels from './components/labels'
 import Images from './components/images'
+import Users from './components/users'
 import LinkComponent from './components/link'
 export default {
   name: 'Admin',
@@ -39,7 +43,7 @@ export default {
     }
   },
   components: {
-    Projects, Labels, Images, LinkComponent
+    Projects, Labels, Images, Users, LinkComponent
   },
   methods: {
     onActive (id) {

@@ -75,6 +75,46 @@ export function delLabel(id) {
 	})
 }
 
+
+export function createUser(parameter) {
+	return axios({
+		url: baseURL + '/admin/users',
+		method: 'post',
+		data: parameter
+	})
+}
+
+export function getUsers(params) {
+	return axios({
+		url: baseURL + '/admin/users?page=' + params.page,
+		method: 'get'
+	})
+}
+
+export function getUser(id) {
+	return axios({
+		url: baseURL + '/admin/users/' + id,
+		method: 'get'
+	})
+}
+
+export function setUser(params) {
+	return axios({
+		url: baseURL + '/admin/users/' + params.id,
+		method: 'put',
+		data: params
+	})
+}
+
+export function delUser(id) {
+	return axios({
+		url: baseURL + '/admin/users/' + id,
+		method: 'delete'
+	})
+}
+
+
+
 export function createImage(parameter) {
 	return axios({
 		url: baseURL + '/admin/images',
