@@ -27,8 +27,14 @@ export default {
     }),
   },
   mounted () {
-    document.onkeyup = e => {
-      this.setKeyboard(e.keyCode)
+    document.onkeydown = e => {
+      let k = e.keyCode
+      if (k > 47 && k < 58) {
+        e.ctrlKey && this.setKeyboard(e.keyCode)
+      } else {
+        this.setKeyboard(e.keyCode)
+      }
+
     }
   },
   methods: {

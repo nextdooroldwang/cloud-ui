@@ -5,8 +5,7 @@ const app = {
 		images: [],
 		active: '',
 		tag: {
-			tagName: Object.keys(tagOptions)[0],
-			tagColor: tagOptions[Object.keys(tagOptions)[0]].color
+			tagName: Object.keys(tagOptions)[0]
 		},
 		drawing: '',
 		editting: '',

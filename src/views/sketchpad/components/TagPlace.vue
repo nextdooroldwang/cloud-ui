@@ -33,16 +33,16 @@
         >
           <div
             class="light"
-            :style="{background:key === tag.tagName || key === tagFocus ? item.color : '#4c4c4c'}"
+            :style="{background:key === tag.tagName || key === tagFocus ? PRIMARY : '#4c4c4c'}"
           ></div>
           <div
             class="type"
-            :style="{borderBottom:'1px solid ' + (key === tag.tagName || key === tagFocus ? item.color : '#4c4c4c')}"
+            :style="{borderBottom:'1px solid ' + (key === tag.tagName || key === tagFocus ? PRIMARY : '#4c4c4c')}"
           >
             {{key}}
             <span
               class="number"
-              :style="{color:key === tag.tagName || key === tagFocus ? item.color : item.number ? '#fff' : '#4c4c4c'}"
+              :style="{color:key === tag.tagName || key === tagFocus ? PRIMARY : item.number ? '#fff' : '#4c4c4c'}"
             >已标注（{{item.number}}）</span>
           </div>
         </div>
@@ -57,12 +57,15 @@ import JSZip from 'jszip'
 import { mapActions, mapState } from 'vuex'
 import { getStore } from '@/utils/storage'
 import tagOptions from '../../../../public/tagOptions.json'
+const PRIMARY = '#559cf8'
 export default {
   name: 'TagPlace',
   data () {
+    this.PRIMARY = PRIMARY
     return {
       tagFocus: '',
-      loading: false
+      loading: false,
+
     }
   },
   computed: {
@@ -85,7 +88,7 @@ export default {
   },
   watch: {
     keyboard (code) {
-      this.onKeyup(code.split(',')[0])
+      this.onKeydown(code.split(',')[0])
     }
   },
   methods: {
@@ -154,15 +157,15 @@ export default {
 
     // },
     onActiveTag (k) {
-      this.setTag({ tagName: k, tagColor: this.tagOptions[k].color })
+      this.setTag({ tagName: k })
       this.setEditting('')
     },
-    onKeyup (code) {
+    onKeydown (code) {
       let k = ''
-      for (let i = 49; i < 58; i++) {
+      for (let i = 48; i < 58; i++) {
         if (code === i + '') {
-          if (Object.keys(tagOptions).length > i - 49) {
-            k = Object.keys(tagOptions)[i - 49]
+          if (Object.keys(tagOptions).length > i - 48) {
+            k = Object.keys(tagOptions)[i - 48]
           }
         }
       }

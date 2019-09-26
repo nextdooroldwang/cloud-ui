@@ -7,7 +7,8 @@
 <script>
 import { fabric } from 'fabric'
 import { mapState, mapActions } from 'vuex'
-
+const PRIMARY = '#559cf8'
+const DEFAULT = '#fff'
 export default {
   name: 'Canvas',
   data () {
@@ -54,7 +55,6 @@ export default {
     }
   },
   mounted () {
-    console.log('init')
     this.canvas = new fabric.Canvas(this.$refs.canvas.id);
     this.canvas.on('mouse:down', this.ondown)
     this.canvas.on('mouse:up', this.onup)
@@ -96,15 +96,15 @@ export default {
         hasRotatingPoint: false,
       });
     },
-    drawRect (left, top, width, height, stroke, activated) {
+    drawRect (left, top, width, height, activated) {
       return new fabric.Rect({
         left,
         top,
         width,
         height,
         fill: null,
-        strokeWidth: activated ? 4 : 1,
-        stroke,
+        strokeWidth: 4,
+        stroke: activated ? PRIMARY : DEFAULT,
         hasBorders: false,
         hasControls: false,
         cornerColor: '#ffffff',
@@ -123,8 +123,8 @@ export default {
       let { points, active, canvas, tag, scale } = this
       for (let key in points) {
         if (key != active) {
-          let { startX, startY, endX, endY, color, type } = points[key]
-          this.newRectObj(key, canvas, startX * scale, startY * scale, (endX - startX) * scale, (endY - startY) * scale, color, type === tag.tagName)
+          let { startX, startY, endX, endY, type } = points[key]
+          this.newRectObj(key, canvas, startX * scale, startY * scale, (endX - startX) * scale, (endY - startY) * scale, type === tag.tagName)
         }
       }
 
@@ -141,16 +141,16 @@ export default {
       if (t) {
         for (let key in this.rects) {
           if (this.points[key].type === t) {
-            this.rects[key].set({ strokeWidth: 4 })
+            this.rects[key].set({ stroke: PRIMARY })
           } else {
-            this.rects[key].set({ strokeWidth: 1 })
+            this.rects[key].set({ stroke: DEFAULT })
           }
         }
       } else {
         for (let key in this.rects) {
-          this.rects[key].set({ strokeWidth: 1, selectable: false, hasControls: false, hoverCursor: 'default' })
+          this.rects[key].set({ stroke: DEFAULT, selectable: false, hasControls: false, hoverCursor: 'default' })
         }
-        k && this.rects[k].set({ strokeWidth: 4, selectable: this.allowEditing, hasControls: this.allowEditing, evented: this.allowEditing, hoverCursor: this.allowEditing ? 'move' : 'default' })
+        k && this.rects[k].set({ stroke: PRIMARY, selectable: this.allowEditing, hasControls: this.allowEditing, evented: this.allowEditing, hoverCursor: this.allowEditing ? 'move' : 'default' })
       }
       this.canvas.renderAll();
     },
@@ -165,12 +165,12 @@ export default {
     },
     allowAll (a) {
       for (let key in this.rects) {
-        this.rects[key].set({ strokeWidth: 1, selectable: a, hasControls: a, evented: a, hoverCursor: a ? 'move' : 'default' })
+        this.rects[key].set({ stroke: DEFAULT, selectable: a, hasControls: a, evented: a, hoverCursor: a ? 'move' : 'default' })
       }
       this.canvas.renderAll();
     },
-    newRectObj (key, canvas, x, y, w, h, c, a) {
-      this.rects[key] = this.drawRect(x, y, w, h, c, a)
+    newRectObj (key, canvas, x, y, w, h, a) {
+      this.rects[key] = this.drawRect(x, y, w, h, a)
       // this.rects[key].on('mousedown:before', (e) => this.rectdown(e, key))
       this.rects[key].on('mouseover', (e) => this.rectover(e, key))
       this.rects[key].on('mouseout', (e) => this.rectout(e, key))
@@ -180,13 +180,12 @@ export default {
       this.rects[key].setCoords()
       canvas.add(this.rects[key])
     },
-    pointFactory (k, startX, startY, endX, endY, color, type) {
+    pointFactory (k, startX, startY, endX, endY, type) {
       let parms = {
         startX,
         startY,
         endX,
         endY,
-        color,
         type
       }
       this.setPoint({ key: k, value: parms })
@@ -194,7 +193,7 @@ export default {
     resetPointFactory (k, aCoords) {
       let { br, tl } = aCoords
       let scale = this.scale
-      this.pointFactory(k, tl.x / scale, tl.y / scale, br.x / scale, br.y / scale, this.points[k].color, this.points[k].type)
+      this.pointFactory(k, tl.x / scale, tl.y / scale, br.x / scale, br.y / scale, this.points[k].type)
     },
     ondown (options) {
       if (!this.editting) {
@@ -207,7 +206,6 @@ export default {
           startY,
           endX: startX,
           endY: startY,
-          color: this.tag.tagColor,
           type: this.tag.tagName
         }
 
@@ -215,7 +213,7 @@ export default {
         this.setDrawing(uuid)
         this.setEditting(uuid)
         this.setFocus(uuid)
-        this.newRectObj(uuid, this.canvas, startX * scale, startY * scale, 4, 4, this.tag.tagColor, true)
+        this.newRectObj(uuid, this.canvas, startX * scale, startY * scale, 4, 4, true)
       }
 
     },
@@ -230,7 +228,7 @@ export default {
         let h = endY - y
 
         if (w > 4 && h > 4) {
-          this.pointFactory(this.drawing, x, y, endX, endY, point.color, point.type)
+          this.pointFactory(this.drawing, x, y, endX, endY, point.type)
         } else {
           this.canvas.remove(this.rects[this.drawing])
           this.$delete(this.rects, this.drawing)

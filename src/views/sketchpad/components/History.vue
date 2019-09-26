@@ -11,18 +11,20 @@
         class="history"
         v-for="(item,key) in points"
         :key="key"
-        @mouseenter="pointFocus = key"
-        @mouseout="pointFocus = ''"
+        @mouseenter.stop="pointFocus = key"
+        @mouseout.stop="pointFocus = ''"
       >
         <div
           class="light"
-          :style="{background:item.type === tag.tagName || key === pointFocus||key === focus ? item.color : '#4c4c4c'}"
+          :style="{background:item.type === tag.tagName || key === pointFocus||key === focus ? PRIMARY : '#4c4c4c'}"
         ></div>
         <div
           class="name"
-          :style="{borderBottom:'1px solid ' + (key === focus || key === pointFocus ? item.color : '#4c4c4c')}"
-          @click="onActivePoint(key,item.type,item.color)"
-        >{{item.type}}</div>
+          :style="{borderBottom:'1px solid ' + (key === focus || key === pointFocus ? PRIMARY : '#4c4c4c')}"
+          @click="onActivePoint(key,item.type)"
+        >
+          <input-component :model="item.type" @changeType="value=>changeType(value,key)"/>
+        </div>
         <div class="delete" @click="onDelete(key)">
           <span class="icon">
             <svg-icon icon-class="delete"/>
@@ -35,13 +37,17 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import InputComponent from '@/components/input'
+const PRIMARY = '#559cf8'
 export default {
   name: 'History',
   data () {
+    this.PRIMARY = PRIMARY
     return {
       pointFocus: ''
     }
   },
+  components: { InputComponent },
   computed: {
     ...mapState({
       points: state => state.image.points,
@@ -51,16 +57,27 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(['delPonit', 'setTag', 'setEditting', 'setFocus', 'setAllowEditing']),
+    ...mapActions(['delPonit', 'setTag', 'setEditting', 'setFocus', 'setAllowEditing', 'setPoint']),
     onDelete (key) {
       console.log('delete!!!')
       this.delPonit(key)
     },
-    onActivePoint (key, tagName, tagColor) {
+    onActivePoint (key, tagName) {
       this.pointFocus = key
       this.setEditting(key)
       this.setFocus(key)
-      this.setTag({ tagName, tagColor })
+      this.setTag({ tagName })
+    },
+    filterOption (input, option) {
+      return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+    },
+    changeType (type, key) {
+
+      if (this.points[key].type !== type) {
+        let parms = { ...this.points[key], type }
+        console.log(key, parms);
+        this.setPoint({ key: key, value: parms })
+      }
     }
   }
 
@@ -120,7 +137,7 @@ export default {
       height: 40px;
       padding: 0 12px;
       margin: 4px 0;
-      cursor: pointer;
+
       .svg-icon {
         fill: #fff;
         width: 1vw;
@@ -132,11 +149,12 @@ export default {
       }
       .name {
         flex: 1;
-        padding: 0 12px;
+        padding-right: 12px;
         margin: 0 12px;
         border-bottom: 1px solid #4c4c4c;
         display: flex;
         align-items: center;
+        // cursor: pointer;
         &:hover {
           border-bottom: 1px solid #009efd;
         }

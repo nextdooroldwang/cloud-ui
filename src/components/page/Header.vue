@@ -25,7 +25,7 @@ export default {
   methods: {
     onClick ({ key }) {
       if (key === "1") {
-        console.log(key)
+        this.$router.push({ path: '/admin' })
       }
       if (key === '2') {
         this.$store.dispatch('Logout').then(() => {
