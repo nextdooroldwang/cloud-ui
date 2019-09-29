@@ -33,7 +33,7 @@
         slot="name"
         slot-scope="text, record"
         href="javascript:;"
-        @click="$emit('onActive',record.id)"
+        @click="setProject({id:record.id,name:record.name})"
       >{{text}}</a>
 
       <span slot="action" slot-scope="text, record">
@@ -49,6 +49,7 @@
 
 <script>
 import { getProjects, getProject, createProject, setProject, delProject } from '@/api/project'
+import { mapActions } from 'vuex'
 export default {
   name: 'Projects',
   data () {
@@ -87,16 +88,16 @@ export default {
     this.getList()
   },
   methods: {
+    ...mapActions(['setProject']),
     async getList (page = 1) {
       this.loading = true
       await getProjects({ page }).then(res => {
         this.list = res.data
         this.total = res.total
         this.current = res.current_page
-        res.data.length > 0 && this.$emit('onActive', res.data[0].id)
+        res.data.length > 0 && this.setProject({ id: res.data[0].id, name: res.data[0].name })
       })
       this.loading = false
-      getProject(7).then()
     },
     clear () {
       this.name = ''

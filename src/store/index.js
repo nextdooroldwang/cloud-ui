@@ -4,12 +4,13 @@ import Vuex from 'vuex'
 import app from './modules/app'
 import user from './modules/user'
 import image from './modules/image'
+import project from './modules/project'
 import getters from './getters'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-	modules: { app, user, image },
+	modules: { app, user, image, project },
 	state: {},
 	mutations: {},
 	actions: {},

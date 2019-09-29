@@ -4,15 +4,15 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 export const baseURL = {
-	prod: 'http://47.102.97.134:31562',
-	qa: 'http://47.102.97.134:31562',
+	prod: 'http://mark-tools.test',
+	qa: 'http://mark-tools.test',
 	dev: '/api',
 	local: '/api'
 }[env]
 
 export const loginURL = {
-	prod: 'http://47.102.97.134:31562',
-	qa: 'http://47.102.97.134:31562',
+	prod: 'http://mark-tools.test',
+	qa: 'http://mark-tools.test',
 	dev: '/oauth/token',
 	local: '/token'
 }[env]

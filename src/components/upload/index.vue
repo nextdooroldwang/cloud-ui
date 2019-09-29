@@ -5,33 +5,41 @@
         <a-icon type="upload"/>选择文件
       </a-button>
     </a-upload>
-    <a-button
-      type="primary"
-      @click="handleUpload"
-      :disabled="fileList.length === 0"
-      :loading="uploading"
-      style="margin-top: 16px"
-    >{{uploading ? '上传中...' : '开始上传' }}</a-button>
-    <a-button @click="$emit('close')" style="margin-left: 16px">取消</a-button>
+    <div class="btns">
+      <!-- <a-input v-model="dir" placeholder="请输入目标文件夹名"/> -->
+      <a-select
+        showSearch
+        placeholder="目标文件夹名"
+        optionFilterProp="children"
+        @change="handleChange"
+        :filterOption="filterOption"
+      >
+        <a-select-option v-for="item in userList" :key="item.name" :value="item.name">{{item.name}}</a-select-option>
+      </a-select>
+      <a-button
+        type="primary"
+        @click="handleUpload"
+        :disabled="fileList.length === 0 || !dir"
+        :loading="uploading"
+      >{{uploading ? '上传中...' : '开始上传' }}</a-button>
+
+      <a-button @click="$emit('close')">取消</a-button>
+    </div>
   </div>
 </template>
 
 <script>
-import { createImage } from '@/api/project'
-let OSS = require('ali-oss')
-let client = new OSS({
-  region: 'oss-cn-beijing',
-  accessKeyId: 'LTAI4FpPenCf8sMSAyZyHRr1',
-  accessKeySecret: '6s4IhGogiEzf9Y73R2DqZzx2ZgA53L',
-  bucket: 'ai-mark'
-})
+import { upload } from '@/utils/oss'
+
 export default {
   data () {
     return {
       fileList: [],
+      dir: '',
       uploading: false,
     }
   },
+  props: ['userList'],
   methods: {
     handleRemove (file) {
       const index = this.fileList.indexOf(file);
@@ -44,47 +52,25 @@ export default {
       return false;
     },
     handleUpload () {
-      const { fileList } = this;
+      const { fileList, dir } = this;
+      let project = this.$store.getters.project
+      let path = project.id + '/' + dir + '/'
       this.uploading = true
-      fileList.forEach(async (file) => {
-        try {
-          let result = await client.put(file.name, file)
-          createImage({ path: result.url }).then(() => {
-            console.log(file.name + '上传成功');
-          }).catch(() => {
-            console.log(file.name + '上传失败');
-          })
-          this.handleRemove(file)
-          if (this.fileList.length === 0) {
-            this.uploading = false
-            this.$emit('done')
-          }
-        } catch (e) {
-          console.log(e)
+      upload(fileList, path, (file) => {
+        this.handleRemove(file)
+        if (this.fileList.length === 0) {
+          this.uploading = false
+          this.$emit('done')
         }
-      });
+      })
 
-
-
-      // You can use any AJAX library you like
-      // success: () => {
-      //   this.fileList = []
-      //   this.uploading = false
-      //   this.$message.success('upload successfully.');
-      // },
-      // error: () => {
-      //   this.uploading = false
-      //   this.$message.error('upload failed.');
-      // },
     },
-    // async putBlob () {
-    //   try {
-    //     let result = await client.put('object-key', new Blob(['content'], { type: 'text/plain' }))
-    //     console.log(result)
-    //   } catch (e) {
-    //     console.log(e)
-    //   }
-    // }
+    handleChange (value) {
+      this.dir = value
+    },
+    filterOption (input, option) {
+      return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+    }
   },
 }
 </script>
@@ -93,4 +79,19 @@ export default {
 .ant-upload-list-item-info {
   padding: 0 24px 0 4px;
 }
+.ant-form-item {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+.btns {
+  display: grid;
+  grid-template-columns: 160px 100px 100px;
+  grid-gap: 12px;
+  align-items: center;
+  margin-top: 12px;
+}
+/* .ant-form-item-control-wrapper {
+  flex: 1;
+} */
 </style>

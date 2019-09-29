@@ -54,6 +54,7 @@ export default {
       passwordEdit: '',
       editId: '',
       list: [],
+      pageList: [],
       total: 0,
       current: 0,
       pageSize: 15,
@@ -64,10 +65,10 @@ export default {
           title: '用户名',
           scopedSlots: { customRender: 'name' },
         },
-        {
-          title: '用户密码',
-          dataIndex: 'password',
-        },
+        // {
+        //   title: '用户密码',
+        //   dataIndex: 'password',
+        // },
         {
           title: '操作',
           key: 'action',
@@ -83,12 +84,18 @@ export default {
     async getList (page = 1) {
       this.loading = true
       await getUsers({ page }).then(res => {
-        this.list = res.data
-        this.total = res.total
-        this.current = res.current_page
-        console.log(this.list);
+        console.log(res);
+        this.list = res
+        // this.list = res.data
+        this.total = res.length
+        this.current = page
+        this.pageList = this.getPageList(page)
       })
       this.loading = false
+    },
+    getPageList (current) {
+      let l = [...this.list]
+      return l.slice((current - 1) * this.pageSize, current * this.pageSize)
     },
     clear () {
       this.name = ''

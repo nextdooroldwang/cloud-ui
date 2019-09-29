@@ -52,6 +52,18 @@ export function getLabels(params) {
 		method: 'get'
 	})
 }
+export function getAssignedLabels(params) {
+	return axios({
+		url: baseURL + '/admin/label-categories/assigned?project_id=' + params.project_id + '&page=' + params.page,
+		method: 'get'
+	})
+}
+export function getUnassignedLabels(params) {
+	return axios({
+		url: baseURL + '/admin/label-categories/unassigned?project_id=' + params.project_id + '&page=' + params.page,
+		method: 'get'
+	})
+}
 
 export function getLabel(id) {
 	return axios({
@@ -75,6 +87,20 @@ export function delLabel(id) {
 	})
 }
 
+export function linkLabel(parameter) {
+	return axios({
+		url: baseURL + '/admin/label-categories/assign-to-project',
+		method: 'post',
+		data: parameter
+	})
+}
+export function unlinkLabel(parameter) {
+	return axios({
+		url: baseURL + '/admin/label-categories/cancel-to-project',
+		method: 'post',
+		data: parameter
+	})
+}
 
 export function createUser(parameter) {
 	return axios({
@@ -86,7 +112,7 @@ export function createUser(parameter) {
 
 export function getUsers(params) {
 	return axios({
-		url: baseURL + '/admin/users?page=' + params.page,
+		url: baseURL + '/admin/users',
 		method: 'get'
 	})
 }
@@ -113,8 +139,6 @@ export function delUser(id) {
 	})
 }
 
-
-
 export function createImage(parameter) {
 	return axios({
 		url: baseURL + '/admin/images',
@@ -126,6 +150,18 @@ export function createImage(parameter) {
 export function getImages(params) {
 	return axios({
 		url: baseURL + '/admin/images?page=' + params.page,
+		method: 'get'
+	})
+}
+export function getAssignedImages(params) {
+	return axios({
+		url: baseURL + '/admin/images/assigned?project_id=' + params.project_id + '&page=' + params.page,
+		method: 'get'
+	})
+}
+export function getUnassignedImages(params) {
+	return axios({
+		url: baseURL + '/admin/images/unassigned?project_id=' + params.project_id + '&page=' + params.page,
 		method: 'get'
 	})
 }
@@ -151,10 +187,17 @@ export function delImage(id) {
 		method: 'delete'
 	})
 }
-
-export function linkLabel(parameter) {
+export function delImageAll(params) {
 	return axios({
-		url: baseURL + '/admin/label-categories/assign-to-project',
+		url: baseURL + '/admin/images/batch-destroy',
+		method: 'post',
+		data: params
+	})
+}
+
+export function linkImage(parameter) {
+	return axios({
+		url: baseURL + '/admin/images/assign-to-user',
 		method: 'post',
 		data: parameter
 	})

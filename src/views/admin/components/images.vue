@@ -1,38 +1,44 @@
 <template>
   <div>
     <div class="btn-box">
-      <a-form-item :Image="`图片名：`">
-        <a-input placeholder="请输入图片名"/>
-      </a-form-item>
       <div>
-        <a-button type="primary" :style="{margin:'0 16px'}">搜索</a-button>
-        <a-button @click="createState = true" :disabled="createState">新增</a-button>
+        <a-button
+          type="primary"
+          @click="createState = true"
+          style="margin-right:16px"
+          :disabled="createState"
+        >新增</a-button>
+        <a-popconfirm title="确定销毁所有图片?" @confirm="deleteAll">
+          <a-button @click="createState = false" type="danger" :disabled="list.length===0">删除已选文件夹</a-button>
+        </a-popconfirm>
       </div>
     </div>
     <div class="create-box" v-if="createState">
-      <upload @done="done" @close="createState = false"/>
+      <upload @done="done" @close="createState = false" :userList="userList"/>
     </div>
 
     <a-table
+      :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       :columns="columns"
-      :rowKey="record => record.id"
-      :dataSource="list"
+      :rowKey="record => record.dir"
+      :dataSource="pageList"
       :loading="loading"
       :pagination="{total,current,pageSize}"
       @change="onchange"
     >
-      <img
+      <!-- <img
         slot="path"
         slot-scope="text, record"
         width="100"
         :src="record.path+'?x-oss-process=style/list-thumb'"
-      >
-      <span
-        slot="name"
-        slot-scope="text, record"
-      >{{record.path.split('/')[record.path.split('/').length-1]}}</span>
+      >-->
+      <span slot="dir" slot-scope="text, record">
+        {{
+        text
+        }}
+      </span>
       <span slot="action" slot-scope="text, record">
-        <a-popconfirm title="确定删除此图片?" @confirm="ondelete(record.id)">
+        <a-popconfirm title="确定删除此文件夹?" @confirm="ondelete(record.dir)">
           <a href="javascript:;">删除</a>
         </a-popconfirm>
       </span>
@@ -41,33 +47,43 @@
 </template>
 
 <script>
-import { getImages, createImage, delImage } from '@/api/project'
-import Upload from '@/components/upload'
+import { getUsers } from '@/api/project'
+import Upload from '@/components/upload'// '?x-oss-process=style/list-thumb'
+import { getDir, deletefiles, getImages } from '@/utils/oss'
+import { close } from 'fs';
+
 export default {
-  name: 'Projects',
+  name: 'Images',
   data () {
     return {
       loading: false,
       createState: false,
-      index: '',
-      name: '',
+      selectedRowKeys: [],
       list: [],
+      userList: [],
+      pageList: [],
       total: 0,
       current: 0,
       pageSize: 15,
       columns: [
         {
-          dataIndex: 'path',
-          key: 'path',
-          title: '图片',
-          scopedSlots: { customRender: 'path' },
+          dataIndex: 'dir',
+          key: 'dir',
+          title: '文件夹',
+          scopedSlots: { customRender: 'dir' },
         },
-        {
-          dataIndex: 'name',
-          key: 'name',
-          title: '图片名称',
-          scopedSlots: { customRender: 'name' },
-        },
+        // {
+        //   dataIndex: 'path',
+        //   key: 'path',
+        //   title: '图片',
+        //   scopedSlots: { customRender: 'path' },
+        // },
+        // {
+        //   dataIndex: 'name',
+        //   key: 'name',
+        //   title: '图片名称',
+        //   scopedSlots: { customRender: 'name' },
+        // },
         {
           title: '操作',
           key: 'action',
@@ -77,44 +93,68 @@ export default {
     }
   },
   components: { Upload },
+  computed: {
+    hasSelected () {
+      return this.selectedRowKeys.length > 0
+    },
+
+  },
   mounted () {
     this.getList()
+    this.getUsers()
   },
   methods: {
-    async getList (page = 1) {
-      this.loading = true
-      await getImages({ page }).then(res => {
-        this.list = res.data
-        this.total = res.total
-        this.current = res.current_page
+    getUsers () {
+      getUsers().then(res => {
+        this.userList = res
       })
+    },
+    async getList (page = 1) {
+      let project = this.$store.getters.project
+      let path = project.id + '/'
+      this.loading = true
+      this.list = await getDir(path)
+      this.total = this.list.length
+      this.current = page
+      this.pageList = this.getPageList(page)
       this.loading = false
     },
+
     done () {
       this.$message.success('所有图片都传完啦.');
       this.clear()
       this.getList()
     },
     clear () {
-      this.index = ''
-      this.name = ''
       this.createState = false
     },
-    onCreate () {
-      let { index, name } = this
-      createImage({ index, name }).then(() => {
-        this.$message.success('添加成功')
-        this.clear()
-        this.getList()
+    ondelete (dir) {
+      let project = this.$store.getters.project
+      let path = project.id + '/' + dir + '/'
+      getImages(path).then(res => {
+        let images = res.map(item => {
+          return item.name
+        })
+        deletefiles(images, (d) => {
+          console.log(d);
+          this.clear()
+          this.getList()
+        })
+      });
+    },
+    deleteAll () {
+      console.log(this.selectedRowKeys);
+      this.selectedRowKeys.map(dir => {
+        this.ondelete(dir)
       })
     },
-
-    ondelete (id) {
-      delImage(id).then(() => {
-        this.$message.error('删除成功')
-        this.clear()
-        this.getList()
-      })
+    onSelectChange (selectedRowKeys) {
+      // console.log('selectedRowKeys changed: ', selectedRowKeys);
+      this.selectedRowKeys = selectedRowKeys
+    },
+    getPageList (current) {
+      let l = [...this.list]
+      return l.slice((current - 1) * this.pageSize, current * this.pageSize)
     },
     onchange (e) {
       this.getList(e.current)

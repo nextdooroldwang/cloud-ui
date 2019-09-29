@@ -7,23 +7,27 @@
         </a-button>
         <a-tabs type="card" animated>
           <a-tab-pane tab="项目" key="1">
-            <projects @onActive="onActive"/>
+            <projects/>
           </a-tab-pane>
           <a-tab-pane tab="品类" key="2">
             <labels/>
           </a-tab-pane>
-          <a-tab-pane tab="图片" key="3">
+          <!-- <a-tab-pane tab="文件夹" key="3">
+            <files/>
+          </a-tab-pane>-->
+          <!-- <a-tab-pane tab="图片" key="4">
             <images/>
-          </a-tab-pane>
-          <a-tab-pane tab="用户" key="4">
+          </a-tab-pane>-->
+          <a-tab-pane tab="用户" key="5">
             <users/>
           </a-tab-pane>
+          <B slot="tabBarExtraContent" v-if="active">选择项目：{{project.name}}</B>
         </a-tabs>
       </div>
     </div>
     <div class="groups">
       <div class="form-group">
-        <link-component v-if="active" :active="active"/>
+        <link-component v-if="active"/>
       </div>
     </div>
   </div>
@@ -34,25 +38,33 @@ import Projects from './components/projects'
 import Labels from './components/labels'
 import Images from './components/images'
 import Users from './components/users'
+// import Files from './components/files'
 import LinkComponent from './components/link'
+import { mapState } from 'vuex'
 export default {
   name: 'Admin',
   data () {
     return {
-      active: null
+      active: false
     }
   },
   components: {
     Projects, Labels, Images, Users, LinkComponent
   },
-  methods: {
-    onActive (id) {
-      this.active = null
+  computed: {
+    ...mapState({
+      project: state => state.project.project,
+    })
+  },
+  watch: {
+    project () {
+      this.active = false
       this.$nextTick().then(() => {
-        this.active = id
+        this.active = true
       })
     }
-  }
+  },
+
 }
 </script>
 
