@@ -4,15 +4,15 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 export const baseURL = {
-	prod: 'http://mark-tools.test',
-	qa: 'http://mark-tools.test',
+	prod: '/api',
+	qa: '/api',
 	dev: '/api',
 	local: '/api'
 }[env]
 
 export const loginURL = {
-	prod: 'http://mark-tools.test',
-	qa: 'http://mark-tools.test',
+	prod: '/api',
+	qa: '/api',
 	dev: '/oauth/token',
 	local: '/token'
 }[env]

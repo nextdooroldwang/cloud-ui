@@ -74,14 +74,14 @@ module.exports = {
 	devServer: {
 		proxy: {
 			'/token': {
-				target: 'http://mark-tools.test', //代理接口
+				target: '/api', //代理接口
 				changeOrigin: true,
 				pathRewrite: {
 					'^/token': '/oauth/token' //代理的路径
 				}
 			},
 			'/api': {
-				target: 'http://mark-tools.test', //代理接口
+				target: '/api', //代理接口
 				changeOrigin: true,
 				pathRewrite: {
 					'^/api': '/api' //代理的路径
