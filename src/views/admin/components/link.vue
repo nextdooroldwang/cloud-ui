@@ -6,9 +6,9 @@
     <a-tab-pane tab="关联图片" key="2">
       <link-images/>
     </a-tab-pane>
-    <!-- <a-tab-pane tab="关联用户" key="3">
+    <a-tab-pane tab="关联用户" key="3">
       <link-users :active="project.id"/>
-    </a-tab-pane>-->
+    </a-tab-pane>
   </a-tabs>
 </template>
 

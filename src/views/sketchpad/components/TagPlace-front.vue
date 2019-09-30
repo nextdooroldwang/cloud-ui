@@ -1,7 +1,17 @@
 <template>
   <div class="tag-place">
     <div class="tag-control">
-      <div class="selectTag">标注任务：{{activeProject}}</div>
+      <div class="selectTag">标注产品：雪花</div>
+      <div class="export" @click="exportJson" v-if="!loading">
+        <span class="icon">
+          <svg-icon icon-class="export"/>
+        </span>
+      </div>
+      <div class="loading" v-else>
+        <span class="icon">
+          <svg-icon icon-class="loading"/>
+        </span>
+      </div>
     </div>
 
     <div class="tagList">
@@ -9,6 +19,9 @@
         <span>
           标注品类
           <span v-if="sum > 0">({{sum}})</span>
+        </span>
+        <span class="icon" @mouseover="showEx(true)" @mouseout="showEx(false)">
+          <svg-icon icon-class="target"/>
         </span>
       </div>
       <div class="classify-box">
@@ -46,7 +59,7 @@ import FileSaver from 'file-saver'
 import JSZip from 'jszip'
 import { mapActions, mapState } from 'vuex'
 import { getStore } from '@/utils/storage'
-import { getLabels } from '@/api/sketchpad'
+import tagOptions from '../../../../public/tagOptions.json'
 const PRIMARY = '#559cf8'
 export default {
   name: 'TagPlace',
@@ -55,7 +68,6 @@ export default {
     return {
       tagFocus: '',
       loading: false,
-      tagOptions: {}
     }
   },
   computed: {
@@ -64,11 +76,20 @@ export default {
       points: state => state.image.points,
       tag: state => state.image.tag,
       keyboard: state => state.image.keyboard,
-      activeProject: state => state.user.activeProject,
     }),
+    tagOptions () {
+      for (let key in tagOptions) {
+        let num = 0
+        for (let k in this.points) {
+          this.points[k].type === key && num++
+        }
+        tagOptions[key].number = num
+      }
+      return tagOptions
+    },
     sum () {
       let s = 0
-      for (let key in this.tagOptions) {
+      for (let key in tagOptions) {
         let num = 0
         for (let k in this.points) {
           this.points[k].type === key && num++
@@ -83,30 +104,8 @@ export default {
       this.onKeydown(code.split(',')[0])
     }
   },
-  mounted () {
-    this.getList()
-  },
   methods: {
     ...mapActions(['setTag', 'setEditting', 'showEx']),
-    async getList () {
-      this.loading = true
-      await getLabels(this.activeProject).then(res => {
-        console.log(res);
-        let t = {}
-        res.map(item => {
-          t[item.index + ''] = {}
-          t[item.index + ''].name = item.name
-          let num = 0
-          for (let k in this.points) {
-            this.points[k].type === (item.index + '') && num++
-          }
-          t[item.index + ''].number = num
-        })
-        this.tagOptions = t
-        this.setTag({ tagName: res[0].index + '' })
-      });
-      this.loading = false
-    },
     exportJson () {
       this.loading = true
       this.manyJson()
@@ -178,8 +177,8 @@ export default {
       let k = ''
       for (let i = 48; i < 58; i++) {
         if (code === i + '') {
-          if (Object.keys(this.tagOptions).length > i - 48) {
-            k = Object.keys(this.tagOptions)[i - 48]
+          if (Object.keys(tagOptions).length > i - 48) {
+            k = Object.keys(tagOptions)[i - 48]
           }
         }
       }

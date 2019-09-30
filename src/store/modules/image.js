@@ -1,11 +1,11 @@
 import { getStore, setStore, clearStore } from '@/utils/storage'
-import tagOptions from '../../../public/tagOptions.json'
+import { submitLabels } from '@/api/sketchpad'
 const app = {
 	state: {
 		images: [],
 		active: '',
 		tag: {
-			tagName: Object.keys(tagOptions)[0]
+			tagName: ''
 		},
 		drawing: '',
 		editting: '',
@@ -105,7 +105,36 @@ const app = {
 			})
 			inimages === 0 && commit('ADD_IMAGE', image)
 		},
-		activeImage({ commit }, key) {
+		activeImage({ commit, state }, key) {
+			let imageWidth = null
+			let imageHeight = null
+			let label = []
+			state.images.map(item => {
+				if (item.key === state.active) {
+					imageWidth = item.width
+					imageHeight = item.height
+				}
+			})
+			let p = state.points
+			for (let k in p) {
+				label.push({
+					category: p[k].type,
+					xmin: p[k].startX,
+					ymin: p[k].startY,
+					xmax: p[k].endX,
+					ymax: p[k].endY
+				})
+			}
+			let parms = {
+				image_path: state.active,
+				project_id: state.active.split('/')[0],
+				data: {
+					imageWidth,
+					imageHeight,
+					label
+				}
+			}
+			submitLabels(parms).then()
 			commit('ACTIVE_IMAGE', key)
 			commit('SET_POINTS')
 		},

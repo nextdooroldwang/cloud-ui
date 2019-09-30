@@ -48,9 +48,8 @@
 
 <script>
 import { getUsers } from '@/api/project'
-import Upload from '@/components/upload'// '?x-oss-process=style/list-thumb'
+import Upload from '@/components/upload'
 import { getDir, deletefiles, getImages } from '@/utils/oss'
-import { close } from 'fs';
 
 export default {
   name: 'Images',

@@ -31,10 +31,10 @@
     >
       <span slot="action" slot-scope="text, record">
         <a href="javascript:;" @click="edit(record.id)">编辑</a>
-        <a-divider type="vertical"/>
+        <!-- <a-divider type="vertical"/>
         <a-popconfirm title="确定删除此项目?" @confirm="ondelete(record.id)">
           <a href="javascript:;">删除</a>
-        </a-popconfirm>
+        </a-popconfirm>-->
       </span>
     </a-table>
   </div>

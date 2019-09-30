@@ -5,12 +5,17 @@
         <div class="out-log" @click="logOut">退出登录</div>
         <div
           class="out-log"
-          v-if="$store.getters.name === 'Cheng Zhi'"
+          v-if="$store.getters.name === 'chengzhi'"
           @click="$router.push({path:'/admin'})"
         >管理项目</div>
       </div>
       <div class="login-logo">项目设置</div>
       <a-form>
+        <a-form-item label="选择任务">
+          <a-select @change="handleChange">
+            <a-select-option v-for="item in list" :value="item.id" :key="item.id">{{item.name}}</a-select-option>
+          </a-select>
+        </a-form-item>
         <a-button
           :loading="loading"
           type="primary"
@@ -24,15 +29,30 @@
 </template>
 
 <script>
+import { getProjects } from '@/api/sketchpad'
+import { mapActions } from 'vuex'
 export default {
   name: 'Project',
 
   data () {
     return {
       loading: false,
+      list: [],
+      curretProject: null
     }
   },
+  mounted () {
+    this.getList()
+  },
   methods: {
+    ...mapActions(['activeProject']),
+    async getList () {
+      this.loading = true
+      await getProjects(this.$store.getters.name).then(res => {
+        this.list = res
+      })
+      this.loading = false
+    },
     logOut () {
       this.$store.dispatch('Logout').then(() => {
         this.$router.push({ path: '/login' })
@@ -40,6 +60,9 @@ export default {
     },
     handleGo () {
       this.$router.push({ path: '/sketchpad' })
+    },
+    handleChange (value) {
+      this.activeProject(value)
     }
   }
 }

@@ -1,7 +1,21 @@
 <template>
   <div class="img-list">
     <div class="file-controller">
-      <div>图片列表</div>
+      <input
+        ref="fileInput"
+        type="file"
+        id="fileElem"
+        multiple
+        accept="image/*"
+        style="display:none"
+        @change="handleFiles"
+      >
+      <div @click="$refs.fileInput.click()">
+        <span class="icon">
+          <svg-icon icon-class="open"/>
+        </span>
+        <span>添加图片</span>
+      </div>
     </div>
     <div class="imgs">
       <div
@@ -11,7 +25,7 @@
         :key="item.key"
         @click="onactive(item.key)"
       >
-        <img v-lazy="item.thum" :title="item.key">
+        <img :src="item.thum" :title="item.key">
         <span class="icon" v-if="item.hadtags">
           <svg-icon icon-class="hadtag"/>
         </span>
@@ -22,36 +36,16 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import { getImages } from '@/utils/oss'
 export default {
   name: 'ImageList',
   computed: {
     ...mapState({
       images: state => state.image.images,
       active: state => state.image.active,
-      activeProject: state => state.user.activeProject,
-      name: state => state.user.name
     }),
-  },
-  mounted () {
-    this.getList()
   },
   methods: {
     ...mapActions(['addImage', 'activeImage']),
-    async getList () {
-      let path = this.activeProject + '/' + this.name + '/'
-      this.loading = true
-      await getImages(path).then(res => {
-        res.map(item => {
-          this.addImage({
-            key: item.name,
-            data: item.url,
-            thum: item.url + '?x-oss-process=style/list-thumb'
-          })
-        })
-      });
-      this.loading = false
-    },
     handleFiles () {
       let files = this.$refs.fileInput.files
       let _this = this

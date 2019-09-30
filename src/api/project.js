@@ -139,6 +139,38 @@ export function delUser(id) {
 	})
 }
 
+export function getAssignedUsers(params) {
+	return axios({
+		url: baseURL + '/admin/users/assigned?project_id=' + params.project_id + '&page=' + params.page,
+		method: 'get'
+	})
+}
+export function getUnassignedUsers(params) {
+	return axios({
+		url: baseURL + '/admin/users/unassigned?project_id=' + params.project_id + '&page=' + params.page,
+		method: 'get'
+	})
+}
+
+export function linkUser(params) {
+	return axios({
+		url: baseURL + '/admin/projects/' + params.project_id + '/assign-to-user',
+		method: 'post',
+		data: {
+			user_ids: params.ids
+		}
+	})
+}
+export function unlinkUser(params) {
+	return axios({
+		url: baseURL + '/admin/projects/' + params.project_id + '/unassigned-to-user',
+		method: 'post',
+		data: {
+			user_ids: params.ids
+		}
+	})
+}
+
 export function createImage(parameter) {
 	return axios({
 		url: baseURL + '/admin/images',

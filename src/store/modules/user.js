@@ -8,7 +8,8 @@ const app = {
 		// welcome: '',
 		avatar: '',
 		roles: [],
-		info: {}
+		info: {},
+		activeProject: null
 	},
 	mutations: {
 		SET_TOKEN: (state, token) => {
@@ -26,15 +27,22 @@ const app = {
 		},
 		SET_INFO: (state, info) => {
 			state.info = info
+		},
+		ACTIVE_PROJECT: (state, id) => {
+			state.activeProject = id
 		}
 	},
 	actions: {
+		activeProject({ commit }, id) {
+			commit('ACTIVE_PROJECT', id)
+		},
 		Login({ commit }, userInfo) {
 			return new Promise((resolve, reject) => {
 				login(userInfo)
 					.then(response => {
 						Cookies.set(ACCESS_TOKEN, response.token_type + ' ' + response.access_token, { expires: 1 })
 						commit('SET_TOKEN', response.token_type + ' ' + response.access_token)
+						commit('SET_NAME', { name: userInfo.username })
 						resolve()
 					})
 					.catch(error => {

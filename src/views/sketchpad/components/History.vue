@@ -162,6 +162,7 @@ export default {
       .delete {
         display: flex;
         align-items: center;
+        cursor: pointer;
         &:hover {
           .svg-icon {
             fill: red;

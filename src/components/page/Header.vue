@@ -2,10 +2,10 @@
   <a-layout-header class="layout-header">
     <div class="avatar-box">
       <div class="setter">
-        <div class="user-name">用户设置</div>
+        <div class="user-name">Hello,{{$store.getters.name}}</div>
         <a-dropdown class="user-setting">
           <a href="#">
-            {{'ChengZhi'}}
+            用户设置
             <a-icon type="down"/>
           </a>
           <a-menu slot="overlay" @click="onClick">

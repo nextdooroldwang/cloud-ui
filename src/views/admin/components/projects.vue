@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { getProjects, getProject, createProject, setProject, delProject } from '@/api/project'
+import { getProjects, createProject, setProject, delProject } from '@/api/project'
 import { mapActions } from 'vuex'
 export default {
   name: 'Projects',
