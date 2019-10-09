@@ -224,11 +224,15 @@ export default {
         let endY = options.e.offsetY / scale
         let x = point.startX
         let y = point.startY
-        let w = endX - x
-        let h = endY - y
+        let sx = endX > x ? x : endX
+        let sy = endY > y ? y : endY
+        let ex = endX > x ? endX : x
+        let ey = endY > y ? endY : y
+        let w = Math.abs(endX - x)
+        let h = Math.abs(endY - y)
 
-        if (w > 4 && h > 4) {
-          this.pointFactory(this.drawing, x, y, endX, endY, point.type)
+        if (w > 20 && h > 20) {
+          this.pointFactory(this.drawing, sx, sy, ex, ey, point.type)
         } else {
           this.canvas.remove(this.rects[this.drawing])
           this.$delete(this.rects, this.drawing)
@@ -245,10 +249,12 @@ export default {
         let endY = options.e.offsetY / scale
         let x = point.startX
         let y = point.startY
-        let w = endX - x
-        let h = endY - y
+        let left = endX > x ? x * scale : endX * scale
+        let top = endY > y ? y * scale : endY * scale
+        let w = Math.abs(endX - x)
+        let h = Math.abs(endY - y)
         if (w > 4 && h > 4) {
-          this.rects[this.drawing].set({ width: w * scale, height: h * scale })
+          this.rects[this.drawing].set({ left, top, width: w * scale, height: h * scale })
           this.rects[this.drawing].setCoords()
           this.canvas.renderAll();
         }
