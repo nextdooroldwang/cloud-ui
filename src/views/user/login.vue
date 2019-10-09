@@ -3,6 +3,7 @@
     <div class="login-form">
       <div class="login-lang">
         <change-lang/>
+        <change-user/>
       </div>
       <div class="login-logo">登录</div>
       <a-form>
@@ -57,10 +58,12 @@ import {
   isvalidUsername
 } from '@/utils/validate'
 import ChangeLang from '@/components/i18n/ChangeLang'
+import ChangeUser from '@/components/changeUser'
 export default {
   name: 'Login',
   components: {
-    ChangeLang
+    ChangeLang,
+    ChangeUser
   },
   data () {
     return {
@@ -103,13 +106,25 @@ export default {
     },
     handleLogin () {
       if (this.validate()) {
+        // this.$router.push({
+        //   path: '/project'
+        //   // path: this.redirect || '/'
+        // })
         this.loading = true
         this.$store.dispatch('Login', this.loginForm).then(() => {
           this.loading = false
-          this.$router.push({
-            path: '/project'
-            // path: this.redirect || '/'
-          })
+          if (this.$store.getters.role === 'admins') {
+            this.$router.push({
+              path: '/admin'
+              // path: this.redirect || '/'
+            })
+          } else {
+            this.$router.push({
+              path: '/project'
+              // path: this.redirect || '/'
+            })
+          }
+
         }).catch(() => {
           this.loading = false
         })

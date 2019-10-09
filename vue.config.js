@@ -72,22 +72,7 @@ module.exports = {
 	},
 
 	devServer: {
-		proxy: {
-			'/token': {
-				target: '/api', //代理接口
-				changeOrigin: true,
-				pathRewrite: {
-					'^/token': '/oauth/token' //代理的路径
-				}
-			},
-			'/api': {
-				target: '/api', //代理接口
-				changeOrigin: true,
-				pathRewrite: {
-					'^/api': '/api' //代理的路径
-				}
-			}
-		}
+		proxy: 'http://mark-tools.test'
 	},
 
 	lintOnSave: undefined,

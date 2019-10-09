@@ -2,8 +2,8 @@
   <div class="admin-container">
     <div class="groups">
       <div class="form-group">
-        <a-button @click="$router.go(-1)" style="margin-bottom:24px">
-          <a-icon type="left"/>返回
+        <a-button @click="logout" style="margin-bottom:24px">
+          <a-icon type="left"/>退出
         </a-button>
         <a-tabs type="card" animated>
           <a-tab-pane tab="项目" key="1">
@@ -64,7 +64,13 @@ export default {
       })
     }
   },
-
+  methods: {
+    logout () {
+      this.$store.dispatch('Logout').then(() => {
+        this.$router.push({ path: '/login' })
+      })
+    }
+  },
 }
 </script>
 

@@ -4,7 +4,7 @@
       <link-labels :active="project.id"/>
     </a-tab-pane>
     <a-tab-pane tab="关联图片" key="2">
-      <link-images/>
+      <link-images :active="project.id"/>
     </a-tab-pane>
     <a-tab-pane tab="关联用户" key="3">
       <link-users :active="project.id"/>

@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { getUsers } from '@/api/project'
+import { getAssignedUsers } from '@/api/project'
 import Upload from '@/components/upload'
 import { getDir, deletefiles, getImages } from '@/utils/oss'
 
@@ -92,6 +92,7 @@ export default {
     }
   },
   components: { Upload },
+  props: ['active'],
   computed: {
     hasSelected () {
       return this.selectedRowKeys.length > 0
@@ -104,8 +105,8 @@ export default {
   },
   methods: {
     getUsers () {
-      getUsers().then(res => {
-        this.userList = res
+      getAssignedUsers({ page: 1, project_id: this.active }).then(res => {
+        this.userList = res.data
       })
     },
     async getList (page = 1) {

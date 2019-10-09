@@ -1,15 +1,16 @@
-import { ACCESS_TOKEN } from '@/store/mutation-types'
-import { login } from '@/api/login'
-import Cookies from 'js-cookie'
-const app = {
+import { loginByUsername, getUserInfo } from '@/api/login'
+import { getToken, removeToken, setToken, setRefreshToken } from '@/utils/auth'
+
+const user = {
 	state: {
-		token: Cookies.get(ACCESS_TOKEN),
-		name: 'Cheng Zhi',
+		token: getToken(),
+		name: '',
 		// welcome: '',
 		avatar: '',
 		roles: [],
 		info: {},
-		activeProject: null
+		activeProject: null,
+		role: 'users'
 	},
 	mutations: {
 		SET_TOKEN: (state, token) => {
@@ -30,18 +31,25 @@ const app = {
 		},
 		ACTIVE_PROJECT: (state, id) => {
 			state.activeProject = id
+		},
+		CHANGE_ROLE: (state, role) => {
+			state.role = role
 		}
 	},
 	actions: {
 		activeProject({ commit }, id) {
 			commit('ACTIVE_PROJECT', id)
 		},
+		changeRole({ commit }, role) {
+			commit('CHANGE_ROLE', role)
+		},
 		Login({ commit }, userInfo) {
 			return new Promise((resolve, reject) => {
-				login(userInfo)
+				loginByUsername({ ...userInfo, grant_type: 'password' })
 					.then(response => {
-						Cookies.set(ACCESS_TOKEN, response.token_type + ' ' + response.access_token, { expires: 1 })
-						commit('SET_TOKEN', response.token_type + ' ' + response.access_token)
+						const data = response
+						setToken(data.access_token, data.expires_in)
+						setRefreshToken(data.refresh_token)
 						commit('SET_NAME', { name: userInfo.username })
 						resolve()
 					})
@@ -54,19 +62,19 @@ const app = {
 		// 获取用户信息
 		GetInfo({ commit }) {
 			return new Promise(resolve => {
-				if (Cookies.get(ACCESS_TOKEN)) {
+				if (getToken()) {
 					let result = {
-						name: 'Cheng Zhi',
-						avatar: '',
+						// name: 'Cheng Zhi',
+						// avatar: '',
 						role: {
 							permissionList: ['Project', 'Sketchpad']
 						}
 					}
 
 					commit('SET_ROLES', result.role)
-					commit('SET_INFO', result)
-					commit('SET_NAME', { name: result.name })
-					commit('SET_AVATAR', result.avatar)
+					// commit('SET_INFO', result)
+					// commit('SET_NAME', { name: result.name })
+					// commit('SET_AVATAR', result.avatar)
 
 					resolve(result)
 				}
@@ -101,7 +109,7 @@ const app = {
 		Logout({ commit }) {
 			return new Promise(resolve => {
 				commit('SET_TOKEN', '')
-				Cookies.remove(ACCESS_TOKEN)
+				removeToken()
 				resolve()
 				// logout(state.token)
 				// 	.then(() => {
@@ -115,4 +123,4 @@ const app = {
 	}
 }
 
-export default app
+export default user

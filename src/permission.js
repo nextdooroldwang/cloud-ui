@@ -5,8 +5,7 @@ import router from './router'
 
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
-import Cookies from 'js-cookie'
-import { ACCESS_TOKEN } from '@/store/mutation-types'
+import { getToken } from '@/utils/auth'
 
 const whiteList = ['Login', 'register', 'registerResult']
 
@@ -15,7 +14,7 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 router.beforeEach((to, from, next) => {
 	NProgress.start() // start progress bar
 	// to.meta && (typeof to.meta.title !== 'undefined' && setDocumentTitle(`${to.meta.title} - ${domTitle}`))
-	if (Cookies.get(ACCESS_TOKEN)) {
+	if (getToken()) {
 		/* has token */
 		if (to.path === '/login') {
 			next({ path: '/project' })
