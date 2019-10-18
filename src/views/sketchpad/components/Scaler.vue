@@ -110,4 +110,8 @@ export default {
   border-radius: 4px;
   padding: 2px 6px;
 }
+.ai:hover {
+  border: 1px solid yellowgreen;
+  color: yellowgreen;
+}
 </style>

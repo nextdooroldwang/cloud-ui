@@ -9,7 +9,7 @@ let client = new OSS({
 export function upload(fileList, path, callback) {
 	fileList.forEach(async file => {
 		try {
-			let result = await client.put(path + file.name, file)
+			await client.put(path + file.name, file)
 			callback(file)
 		} catch (e) {
 			console.log(e)

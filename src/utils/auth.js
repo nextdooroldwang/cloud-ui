@@ -37,7 +37,7 @@ export function isRefreshToken() {
 }
 
 // -------------------------------------------------------------
-export function getValidToken(func) {
+export function getValidToken() {
 	const token = getToken()
 	const refreshToken = getRefreshToken()
 	const expires = localStorage.getItem(TOKEN_EXPIRE_TIME_KEY)

@@ -57,7 +57,7 @@ service.interceptors.request.use(
 						}
 					)
 				}
-				const requestPromise = new Promise((resolve, reject) => {
+				const requestPromise = new Promise(resolve => {
 					requestList.push(token => {
 						config.headers['Authorization'] = 'Bearer ' + token
 						resolve(config)

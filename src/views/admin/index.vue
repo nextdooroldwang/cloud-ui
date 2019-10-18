@@ -36,7 +36,7 @@
 <script>
 import Projects from './components/projects'
 import Labels from './components/labels'
-import Images from './components/images'
+// import Images from './components/images'
 import Users from './components/users'
 // import Files from './components/files'
 import LinkComponent from './components/link'
@@ -49,7 +49,7 @@ export default {
     }
   },
   components: {
-    Projects, Labels, Images, Users, LinkComponent
+    Projects, Labels, Users, LinkComponent
   },
   computed: {
     ...mapState({

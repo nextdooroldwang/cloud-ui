@@ -32,7 +32,7 @@
         width="100"
         :src="record.path+'?x-oss-process=style/list-thumb'"
       >-->
-      <span slot="dir" slot-scope="text, record">
+      <span slot="dir" slot-scope="text">
         {{
         text
         }}

@@ -9,7 +9,7 @@ export function submitLabels(parameter) {
 	})
 }
 
-export function getProjects(id) {
+export function getProjects() {
 	return axios({
 		url: baseURL + '/projects',
 		method: 'get',

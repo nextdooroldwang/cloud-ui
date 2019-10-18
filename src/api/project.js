@@ -110,7 +110,7 @@ export function createUser(parameter) {
 	})
 }
 
-export function getUsers(params) {
+export function getUsers() {
 	return axios({
 		url: baseURL + '/admin/users',
 		method: 'get'
