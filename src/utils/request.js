@@ -72,7 +72,6 @@ service.interceptors.request.use(
 				return config
 			}
 		} else {
-			console.log(config)
 			return config
 		}
 	},
@@ -96,7 +95,6 @@ service.interceptors.response.use(
 					location.reload() // 修复401后，前进后退失效问题
 				}, 2000)
 			} else if (error.response.status === 500) {
-				console.log(error.response)
 				notification.error({ message: '异常警告', description: '很抱歉，操作发生错误，请重试！' })
 			} else if (error.response.status === 502 || error.response.status === 504) {
 				notification.error({ message: '异常警告', description: '很抱歉，服务器异常，请稍后重试！' })

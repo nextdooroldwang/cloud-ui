@@ -24,10 +24,10 @@ export default {
       keyboard: state => state.image.keyboard,
     }),
     left () {
-      return this.images[0].key === this.active
+      return this.images.length > 0 ? this.images[0].key === this.active : true
     },
     right () {
-      return this.images[this.images.length - 1].key === this.active
+      return this.images.length > 0 ? this.images[this.images.length - 1].key === this.active : true
     }
   },
   watch: {

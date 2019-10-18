@@ -17,7 +17,7 @@ export default {
   name: 'ChangeRole',
   data () {
     return {
-      lang: 'users'
+      lang: this.$store.getters.role || 'users'
     }
   },
   computed: {

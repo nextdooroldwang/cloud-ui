@@ -25,14 +25,30 @@ export default {
       images: state => state.image.images,
       scale: state => state.image.scale,
       active: state => state.image.active,
+      ai: state => state.image.ai,
     })
   },
   watch: {
     active () {
-
+      this.createImage()
+    },
+    scale (v) {
+      this.setCanvas(v)
+    },
+    ai () {
+      this.createImage()
+    }
+  },
+  mounted () {
+    this.active && this.createImage()
+  },
+  methods: {
+    ...mapActions(['setScale', 'setBestScale', 'setPoint', 'setImage', 'finishedDraw', 'showLoading']),
+    createImage () {
       let _this = this
       let img = this.$refs.img
       let index = null
+      this.showLoading(true)
       this.images.map((item, i) => {
         if (item.key === this.active) {
           img.src = item.data
@@ -44,12 +60,6 @@ export default {
         _this.setImage({ index, width: img.width, height: img.height })
       }
     },
-    scale (v) {
-      this.setCanvas(v)
-    },
-  },
-  methods: {
-    ...mapActions(['setScale', 'setBestScale', 'setPoint', 'setImage', 'finishedDraw']),
     countScale (dom) {
       let w = this.$refs.main.clientWidth - 54
       let h = this.$refs.main.clientHeight - 54
@@ -74,6 +84,7 @@ export default {
       this.height = this.$refs.img.height * s
       this.$nextTick().then(() => {
         this.clear = true
+        this.showLoading(false)
       })
     },
   }

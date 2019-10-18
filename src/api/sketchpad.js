@@ -28,3 +28,22 @@ export function getLabels(id) {
 		}
 	})
 }
+
+export function getAILabels(url, type) {
+	return axios({
+		url: 'http://47.94.92.176:8089/predict',
+		method: 'post',
+		data: {
+			service: 'xuehua_service',
+			parameters: {
+				output: {
+					bbox: true,
+					best: 1,
+					confidence_threshold: 0.7
+				}
+			},
+			model_type: type,
+			data: [url]
+		}
+	})
+}

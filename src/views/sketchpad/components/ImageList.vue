@@ -42,13 +42,17 @@ export default {
       let path = this.activeProject + '/' + this.name + '/'
       this.loading = true
       await getImages(path).then(res => {
-        res.map(item => {
-          this.addImage({
+        let list = res.map(item => {
+          return {
             key: item.name,
             data: item.url,
             thum: item.url + '?x-oss-process=style/list-thumb'
-          })
+          }
         })
+        this.addImage(list)
+        list.length === 0 && this.activeImage('')
+      }).catch(err => {
+        console.log(err);
       });
       this.loading = false
     },

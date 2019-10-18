@@ -12,21 +12,24 @@ const app = {
 		focus: '',
 		scale: 1,
 		bestScale: 1,
+		ai: 0,
 		points: {},
 		showEx: false,
+		imageLoading: false,
 		allowEditing: false,
 		keyboard: null
 	},
 	mutations: {
-		ADD_IMAGE: (state, image) => {
-			let images = [...state.images]
-			images.push(image)
-			images = images.map(item => {
+		ADD_IMAGE: (state, list) => {
+			let images = list.map(item => {
 				item.hadtags = getStore(item.key) ? true : false
 				return item
 			})
 
 			state.images = images
+		},
+		ADD_AI: state => {
+			state.ai++
 		},
 		SET_IMAGE: (state, { index, width, height }) => {
 			let images = [...state.images]
@@ -35,6 +38,7 @@ const app = {
 			state.images = images
 		},
 		ACTIVE_IMAGE: (state, key) => {
+			console.log('img:', key)
 			state.active = key
 		},
 		SET_BEST_SCALE: (state, scale) => {
@@ -90,6 +94,9 @@ const app = {
 		SHOW_EX: (state, s) => {
 			state.showEx = s
 		},
+		SHOW_LOADING: (state, isloading) => {
+			state.imageLoading = isloading
+		},
 		ALLOW_EDITING: state => {
 			state.allowEditing = !state.allowEditing
 		},
@@ -98,12 +105,8 @@ const app = {
 		}
 	},
 	actions: {
-		addImage({ commit, state }, image) {
-			let inimages = 0
-			state.images.map(item => {
-				item.key === image.key && inimages++
-			})
-			inimages === 0 && commit('ADD_IMAGE', image)
+		addImage({ commit }, list) {
+			commit('ADD_IMAGE', list)
 		},
 		activeImage({ commit, state }, key) {
 			let imageWidth = null
@@ -134,7 +137,7 @@ const app = {
 					label
 				}
 			}
-			submitLabels(parms).then()
+			key && state.active && submitLabels(parms).then()
 			commit('ACTIVE_IMAGE', key)
 			commit('SET_POINTS')
 		},
@@ -174,11 +177,17 @@ const app = {
 		showEx({ commit }, s) {
 			commit('SHOW_EX', s)
 		},
+		showLoading({ commit }, b) {
+			commit('SHOW_LOADING', b)
+		},
 		setAllowEditing({ commit }) {
 			commit('ALLOW_EDITING')
 		},
 		setKeyboard({ commit }, code) {
 			commit('SET_KEYBOARD', code)
+		},
+		addAI({ commit }) {
+			commit('ADD_AI')
 		}
 	}
 }

@@ -103,7 +103,7 @@ export default {
         width,
         height,
         fill: null,
-        strokeWidth: 4,
+        strokeWidth: 3,
         stroke: activated ? PRIMARY : DEFAULT,
         hasBorders: false,
         hasControls: false,

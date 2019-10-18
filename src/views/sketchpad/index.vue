@@ -7,6 +7,11 @@
       <history/>
     </div>
     <div class="modal" v-show="showEx"></div>
+    <div class="loading" v-show="loading">
+      <span class="icon">
+        <svg-icon icon-class="loading"/>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -24,6 +29,7 @@ export default {
   computed: {
     ...mapState({
       showEx: state => state.image.showEx,
+      loading: state => state.image.imageLoading,
     }),
   },
   mounted () {
@@ -72,6 +78,21 @@ export default {
     background-position: center;
     background-size: auto 98%;
     box-shadow: 0px 0px 5px #559cf8;
+  }
+  .loading {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 60px;
   }
 }
 </style>

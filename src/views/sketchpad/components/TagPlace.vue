@@ -91,7 +91,6 @@ export default {
     async getList () {
       this.loading = true
       await getLabels(this.activeProject).then(res => {
-        console.log(res);
         let t = {}
         res.map(item => {
           t[item.index + ''] = {}

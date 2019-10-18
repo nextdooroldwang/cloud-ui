@@ -12,9 +12,10 @@ export function setToken(token, expires) {
 }
 
 export function removeToken() {
-	localStorage.removeItem(ACCESS_TOKEN_KEY)
-	localStorage.removeItem(REFRESH_TOKEN_KEY)
-	localStorage.removeItem(TOKEN_EXPIRE_TIME_KEY)
+	localStorage.clear()
+	// localStorage.removeItem(ACCESS_TOKEN_KEY)
+	// localStorage.removeItem(REFRESH_TOKEN_KEY)
+	// localStorage.removeItem(TOKEN_EXPIRE_TIME_KEY)
 }
 
 export function setRefreshToken(token) {
