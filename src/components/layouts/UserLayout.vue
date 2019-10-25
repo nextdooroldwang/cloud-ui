@@ -1,10 +1,5 @@
 <template>
   <div class="login-router-container">
-    <a-steps direction="vertical" :current="current">
-      <a-step title="用户登录" description="用户登录匹配自己的任务"/>
-      <a-step title="选择任务" description="选择项目和图片."/>
-      <a-step title="开始任务" description="打标签."/>
-    </a-steps>
     <router-view/>
   </div>
 </template>
@@ -33,9 +28,9 @@ export default {
   min-width: 100%;
   min-height: 100%;
   display: grid;
-  grid-template-columns: 25vw 40vw;
+  grid-template-columns: 100vw;
   align-items: center;
-  justify-content: center;
+  justify-items: center;
   background: #fff;
   // .ant-steps-item-finish > .ant-steps-item-content > .ant-steps-item-title {
   //   color: #fff;

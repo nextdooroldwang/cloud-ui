@@ -10,13 +10,22 @@ export const constantRouterMap = [
 		name: 'home',
 		component: BasicLayout,
 		meta: { title: '首页' },
-		redirect: '/sketchpad',
+		redirect: '/admin',
 		children: [
 			{
-				path: '/sketchpad',
-				name: 'sketchpad',
-				component: () => import('@/views/sketchpad'),
-				meta: { title: '画板', keepAlive: true, ipermission: ['sketchpad'] }
+				path: '/admin',
+				name: 'Admin',
+				redirect: '/admin/project',
+				component: () => import('@/views/admin'),
+				meta: { title: '管理平台', ipermission: ['admin'] },
+				children: [
+					{
+						path: '/admin/project',
+						name: 'Project',
+						component: () => import('@/views/admin/project'),
+						meta: { title: '项目管理' }
+					}
+				]
 			}
 		]
 	},
@@ -30,20 +39,8 @@ export const constantRouterMap = [
 				name: 'Login',
 				component: () => import('@/views/user/login'),
 				meta: { title: '登录', keepAlive: true }
-			},
-			{
-				path: '/project',
-				name: 'Project',
-				component: () => import('@/views/user/project'),
-				meta: { title: '项目设置', keepAlive: true }
 			}
 		]
-	},
-	{
-		path: '/admin',
-		name: 'Admin',
-		component: () => import('@/views/admin/index'),
-		meta: { title: '管理员', keepAlive: true }
 	},
 	{
 		path: '*',

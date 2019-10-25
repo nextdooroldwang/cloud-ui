@@ -44,19 +44,11 @@ const user = {
 			commit('CHANGE_ROLE', role)
 		},
 		Login({ commit }, userInfo) {
-			return new Promise((resolve, reject) => {
-				loginByUsername({ ...userInfo, grant_type: 'password' })
-					.then(response => {
-						const data = response
-						setToken(data.access_token, data.expires_in)
-						setRefreshToken(data.refresh_token)
-						commit('SET_NAME', { name: userInfo.username })
-						resolve()
-					})
-					.catch(error => {
-						console.log(error)
-						reject(error)
-					})
+			return new Promise(resolve => {
+				setToken('123', '456')
+				setRefreshToken('789')
+				commit('SET_NAME', { name: userInfo.username })
+				resolve()
 			})
 		},
 		// 获取用户信息

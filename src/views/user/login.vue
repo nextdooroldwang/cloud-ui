@@ -3,7 +3,6 @@
     <div class="login-form">
       <div class="login-lang">
         <change-lang/>
-        <change-user/>
       </div>
       <div class="login-logo">登录</div>
       <a-form>
@@ -58,17 +57,15 @@ import {
   isvalidUsername
 } from '@/utils/validate'
 import ChangeLang from '@/components/i18n/ChangeLang'
-import ChangeUser from '@/components/changeUser'
 export default {
   name: 'Login',
   components: {
-    ChangeLang,
-    ChangeUser
+    ChangeLang
   },
   data () {
     return {
       loginForm: {
-        username: 'wangm',
+        username: 'wangmeng',
         password: '123456'
       },
       loginRules: {
@@ -104,30 +101,16 @@ export default {
         this.pwdType = 'password'
       }
     },
-    handleLogin () {
+    async handleLogin () {
       if (this.validate()) {
-        // this.$router.push({
-        //   path: '/project'
-        //   // path: this.redirect || '/'
-        // })
-        this.loading = true
-        this.$store.dispatch('Login', this.loginForm).then(() => {
-          this.loading = false
-          if (this.$store.getters.role === 'admins') {
-            this.$router.push({
-              path: '/admin'
-              // path: this.redirect || '/'
-            })
-          } else {
-            this.$router.push({
-              path: '/project'
-              // path: this.redirect || '/'
-            })
-          }
 
-        }).catch(() => {
-          this.loading = false
+        this.loading = true
+        await this.$store.dispatch('Login', this.loginForm).then(() => {
+          this.$router.push({
+            path: this.redirect || '/'
+          })
         })
+        this.loading = false
       } else {
         console.log('error submit!!')
         return false

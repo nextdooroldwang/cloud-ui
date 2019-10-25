@@ -4,14 +4,12 @@ import createPersistedState from 'vuex-persistedstate'
 
 import app from './modules/app'
 import user from './modules/user'
-import image from './modules/image'
-import project from './modules/project'
 import getters from './getters'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-	modules: { app, user, image, project },
+	modules: { app, user },
 	state: {},
 	mutations: {},
 	actions: {},
