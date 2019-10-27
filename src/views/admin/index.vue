@@ -1,5 +1,5 @@
 <template>
-  <div class="project-container">
+  <div class="admin-container">
     <div class="content">
       <div class="menu-box">
         <div
@@ -9,11 +9,11 @@
           v-for="(item,key) in menuList"
           :key="key"
         >
-          <svg-icon :icon-class="item.icon" class="icon"/>
+          <svg-icon :icon-class="item.icon" class="icon" />
           <span>{{item.name}}</span>
         </div>
       </div>
-      <router-view/>
+      <router-view />
     </div>
     <div class="footer"></div>
   </div>
@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: 'Project',
+  name: 'Admin',
   data () {
     return {
       active: '1',
@@ -31,6 +31,10 @@ export default {
           icon: 'project',
         },
         '2': {
+          name: '工程',
+          icon: 'engineering',
+        },
+        '3': {
           name: '物料',
           icon: 'components',
         }
@@ -47,9 +51,9 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-$primary: yellowgreen;
+@import "@/assets/style/global.scss";
 
-.project-container {
+.admin-container {
   width: 100%;
   height: 100%;
   display: grid;

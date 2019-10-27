@@ -21,8 +21,8 @@ module.exports = {
 		loaderOptions: {
 			less: {
 				modifyVars: {
-					'primary-color': '#394EFF',
-					'link-color': '#394EFF'
+					'primary-color': 'yellowgreen',
+					'link-color': 'yellowgreen'
 					// 'border-radius-base': '10px'
 				},
 				javascriptEnabled: true

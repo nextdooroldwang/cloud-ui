@@ -37,7 +37,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style rel="stylesheet/scss" lang="scss" scoped>
 .exception {
   min-height: 500px;
   height: 80%;
