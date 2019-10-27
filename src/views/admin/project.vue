@@ -26,7 +26,7 @@ export default {
         },
         {
           id: 3,
-          name: 'project3',
+          name: 'project33',
         },
       ]
     }
