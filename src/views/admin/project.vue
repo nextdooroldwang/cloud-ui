@@ -2,7 +2,19 @@
   <div class="project-container">
     <menu-list />
     <div class="content">
-      <card />
+      <div class="cards">
+        <card />
+        <card />
+        <card />
+        <card />
+        <card />
+        <card />
+        <card />
+        <card />
+        <card />
+        <card />
+        <card />
+      </div>
     </div>
   </div>
 </template>
@@ -41,11 +53,16 @@ export default {
   height: 100%;
   display: grid;
   grid-template-columns: 240px 1fr;
-  .content {
+  > .content {
     width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, 50%);
+    height: calc(100vh - 40px);
+    overflow-y: auto;
+    padding: 20px;
+    .cards {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 50%);
+    }
   }
 }
 </style>

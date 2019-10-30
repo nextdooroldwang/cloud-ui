@@ -5,9 +5,9 @@
         <global-header/>
       </a-layout-header>-->
 
-      <a-layout-content :style="{  height: '100vh' }">
+      <a-layout-content :style="{  width:'100vw',height: '100vh' }">
         <transition name="page-transition">
-          <router-view/>
+          <router-view />
         </transition>
       </a-layout-content>
     </a-layout>

@@ -58,7 +58,7 @@ export default {
   height: 100%;
   display: grid;
   grid-template-rows: 1fr 40px;
-  .content {
+  > .content {
     width: 100%;
     height: 100%;
     display: grid;
@@ -84,7 +84,7 @@ export default {
         }
       }
       .active {
-        border-left: 3px solid rgb(255, 255, 255);
+        border-left: 3px solid #fff;
       }
     }
   }

@@ -1,7 +1,7 @@
 <template>
   <a-locale-provider :locale="locale">
     <div id="app">
-      <router-view/>
+      <router-view />
     </div>
   </a-locale-provider>
 </template>
@@ -36,6 +36,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   height: 100%;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 #nav {
   a {
