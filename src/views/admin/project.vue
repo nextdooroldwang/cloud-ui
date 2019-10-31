@@ -2,19 +2,13 @@
   <div class="project-container">
     <menu-list />
     <div class="content">
-      <div class="cards">
-        <card />
-        <card />
-        <card />
-        <card />
-        <card />
-        <card />
-        <card />
-        <card />
-        <card />
-        <card />
-        <card />
-      </div>
+      <draggable v-model="arr">
+        <transition-group>
+          <!-- <div class="cards"> -->
+          <card v-for="item in arr" :key="item" />
+          <!-- </div> -->
+        </transition-group>
+      </draggable>
     </div>
   </div>
 </template>
@@ -22,9 +16,10 @@
 <script>
 import MenuList from './components/project/menulist'
 import Card from './components/project/card'
+import draggable from 'vuedraggable'
 export default {
   name: 'Project',
-  components: { MenuList, Card },
+  components: { draggable, MenuList, Card },
   data () {
     return {
       projects: [
@@ -40,7 +35,8 @@ export default {
           id: 3,
           name: 'project33',
         },
-      ]
+      ],
+      arr: [1, 2, 3, 4, 5, 6, 7, 8, 9]
     }
   },
 
