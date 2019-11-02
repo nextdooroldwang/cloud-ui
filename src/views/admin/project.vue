@@ -2,11 +2,9 @@
   <div class="project-container">
     <menu-list />
     <div class="content">
-      <draggable v-model="arr">
-        <transition-group>
-          <!-- <div class="cards"> -->
-          <card v-for="item in arr" :key="item" />
-          <!-- </div> -->
+      <draggable v-model="cards" handle=".header">
+        <transition-group class="cards" type="transition" name="flip-list">
+          <component v-for="item in cards" :key="item.key" v-bind:is="item.component"></component>
         </transition-group>
       </draggable>
     </div>
@@ -15,11 +13,11 @@
 
 <script>
 import MenuList from './components/project/menulist'
-import Card from './components/project/card'
+import RouteCard from '@/components/card/route'
 import draggable from 'vuedraggable'
 export default {
   name: 'Project',
-  components: { draggable, MenuList, Card },
+  components: { draggable, MenuList, RouteCard },
   data () {
     return {
       projects: [
@@ -36,7 +34,12 @@ export default {
           name: 'project33',
         },
       ],
-      arr: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+      cards: [
+        {
+          key: 'route',
+          component: 'RouteCard'
+        }
+      ]
     }
   },
 
@@ -58,6 +61,9 @@ export default {
       width: 100%;
       display: grid;
       grid-template-columns: repeat(auto-fill, 50%);
+      .flip-list-move {
+        transition: transform 0.5s;
+      }
     }
   }
 }

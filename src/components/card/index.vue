@@ -2,10 +2,10 @@
   <div class="card-container">
     <div class="header">
       <div class="title">
-        布局列表
-        <a-tooltip placement="bottom">
+        {{title}}
+        <a-tooltip placement="bottom" v-if="tips">
           <template slot="title">
-            <span>这是一个布局列表</span>
+            <span>{{tips}}</span>
           </template>
           <span class="info">
             <svg-icon icon-class="info" class="icon" />
@@ -13,13 +13,15 @@
         </a-tooltip>
       </div>
     </div>
-    <div class="content"></div>
+    <div class="content">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-
+  props: ['title', 'tips']
 }
 </script>
 
@@ -58,6 +60,7 @@ export default {
     height: 270px;
     background: #fff;
     overflow-y: auto;
+    padding: 8px;
   }
 }
 </style>
