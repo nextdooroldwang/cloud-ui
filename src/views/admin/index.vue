@@ -29,14 +29,17 @@ export default {
         '1': {
           name: '项目',
           icon: 'project',
+          route: 'Project'
         },
         '2': {
           name: '工程',
           icon: 'engineering',
+          route: 'Engineering'
         },
         '3': {
           name: '物料',
           icon: 'components',
+          route: 'Components'
         }
       }
     }
@@ -44,7 +47,7 @@ export default {
   methods: {
     onClick (key) {
       this.active = key
-      console.log(key);
+      this.$router.push({ name: this.menuList[key].route })
     }
   },
 }

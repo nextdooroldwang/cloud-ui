@@ -12,6 +12,11 @@
           </span>
         </a-tooltip>
       </div>
+      <div class="handlers">
+        <span class="handler" v-if="handlers.edit" @click="$emit('handleEdit')">
+          <svg-icon icon-class="edit" class="icon" />
+        </span>
+      </div>
     </div>
     <div class="content">
       <slot></slot>
@@ -21,7 +26,22 @@
 
 <script>
 export default {
-  props: ['title', 'tips']
+  props: {
+    title: {
+      type: String,
+      default: ''
+    },
+    tips: {
+      type: String,
+      default: ''
+    },
+    handlers: {
+      type: Object,
+      default: function () {
+        return {}
+      }
+    }
+  }
 }
 </script>
 
@@ -31,6 +51,7 @@ export default {
   width: 100%;
   border-radius: 8px;
   padding: 10px;
+  box-shadow: 0px 0px 1px 1px rgb(240, 240, 240);
   .header {
     width: 100%;
     height: 48px;
@@ -48,8 +69,20 @@ export default {
 
       .info {
         margin-left: 4px;
+        cursor: help;
         .icon {
           font-size: 14px;
+          fill: $primary;
+        }
+      }
+    }
+    .handlers {
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      .handler {
+        cursor: pointer;
+        &:hover {
           fill: $primary;
         }
       }

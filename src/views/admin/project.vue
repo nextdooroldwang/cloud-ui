@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import MenuList from './components/project/menulist'
-import RouteCard from '@/components/card/route'
+import MenuList from './project/menulist'
+import RouteCard from './project/route/card'
 import draggable from 'vuedraggable'
 export default {
   name: 'Project',
