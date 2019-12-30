@@ -7631,7 +7631,7 @@ postcss-load-config@^2.0.0:
 
 postcss-loader@^3.0.0:
   version "3.0.0"
-  resolved "http://registry.npm.taobao.org/postcss-loader/download/postcss-loader-3.0.0.tgz?cache=0&other_urls=http%3A%2F%2Fregistry.npm.taobao.org%2Fpostcss-loader%2Fdownload%2Fpostcss-loader-3.0.0.tgz#6b97943e47c72d845fa9e03f273773d4e8dd6c2d"
+  resolved "https://registry.npm.taobao.org/postcss-loader/download/postcss-loader-3.0.0.tgz#6b97943e47c72d845fa9e03f273773d4e8dd6c2d"
   integrity sha1-a5eUPkfHLYRfqeA/Jzdz1OjdbC0=
   dependencies:
     loader-utils "^1.1.0"

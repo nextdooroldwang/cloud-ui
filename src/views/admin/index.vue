@@ -20,34 +20,43 @@
 </template>
 
 <script>
+const menuList = {
+  '1': {
+    name: '项目',
+    icon: 'project',
+    route: 'Project'
+  },
+  '2': {
+    name: '工程',
+    icon: 'engineering',
+    route: 'Engineering'
+  },
+  '3': {
+    name: '物料',
+    icon: 'components',
+    route: 'Element'
+  }
+}
 export default {
   name: 'Admin',
   data () {
     return {
-      active: '1',
-      menuList: {
-        '1': {
-          name: '项目',
-          icon: 'project',
-          route: 'Project'
-        },
-        '2': {
-          name: '工程',
-          icon: 'engineering',
-          route: 'Engineering'
-        },
-        '3': {
-          name: '物料',
-          icon: 'components',
-          route: 'Components'
-        }
-      }
+      active: this.activeRouter() || '1',
+      menuList
     }
   },
   methods: {
+    activeRouter () {
+      let name = this.$route.name
+      let key = ''
+      for (let i in menuList) {
+        menuList[i].route === name && (key = i)
+      }
+      return key
+    },
     onClick (key) {
       this.active = key
-      this.$router.push({ name: this.menuList[key].route })
+      this.$router.push({ name: menuList[key].route })
     }
   },
 }

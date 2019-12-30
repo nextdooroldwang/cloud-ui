@@ -57,6 +57,7 @@ export default {
     height: calc(100vh - 40px);
     overflow-y: auto;
     padding: 20px;
+    background: #eee;
     .cards {
       width: 100%;
       display: grid;

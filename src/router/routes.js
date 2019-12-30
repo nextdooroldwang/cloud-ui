@@ -30,6 +30,12 @@ export const constantRouterMap = [
         name: 'Engineering',
         component: () => import('@/views/admin/engineering'),
         meta: { title: '工程管理' }
+      },
+      {
+        path: '/admin/element',
+        name: 'Element',
+        component: () => import('@/views/admin/element'),
+        meta: { title: '物料管理' }
       }
     ]
   },

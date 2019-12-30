@@ -28,6 +28,23 @@ module.exports = {
           // 'border-radius-base': '10px'
         },
         javascriptEnabled: true
+      },
+      postcss: {
+        plugins: [
+          require('postcss-px-to-viewport')({
+            unitToConvert: 'px',
+            viewportWidth: 1680,
+            unitPrecision: 3,
+            propList: ['*'],
+            viewportUnit: 'vw',
+            fontViewportUnit: 'vw',
+            selectorBlackList: ['.ignore', '.hairlines'],
+            minPixelValue: 1,
+            mediaQuery: false,
+            replace: true,
+            exclude: /(\/|\\)(node_modules)(\/|\\)/
+          })
+        ]
       }
     }
   },
@@ -52,6 +69,11 @@ module.exports = {
   },
 
   chainWebpack: config => {
+    config.module
+      .rule('vue')
+      .test(/\.vue$/)
+      .use('./loader/pxtovw.js')
+      .loader('./loader/pxtovw.js')
     // 添加新的svg-sprite-loader处理svgIcon
     config.module
       .rule('svgIcon')
