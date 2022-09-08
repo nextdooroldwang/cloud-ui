@@ -17,7 +17,7 @@
 		"fabric": "^3.4.0",
 		"file-saver": "^2.0.2",
 		"js-cookie": "^2.2.0",
-		"jszip": "^3.2.2",
+		"jszip": "^3.7.0",
 		"moment": "^2.24.0",
 		"monaco-editor": "0.18.1",
 		"nprogress": "^0.2.0",
